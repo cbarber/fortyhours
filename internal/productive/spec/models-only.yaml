@@ -1323,7 +1323,6 @@ components:
         import:
           title: Import
         template:
-          type: string
           title: Template
           description: Whether this project is a template.
           example:
@@ -1357,7 +1356,6 @@ components:
           example:
             eq: value
         tag_colors:
-          type: string
           title: Tag Colors
           description: Color mappings for project tags, keyed by tag name.
           example:

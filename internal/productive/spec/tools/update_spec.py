@@ -70,6 +70,8 @@ SCALAR_TYPE_OVERRIDES_TO_ANY = {
     ("resource_person", "tag_list"): "comma-separated string in filters; array in the actual resource",
     ("resource_service", "budgets_and_deals"): "boolean in the filter schema; array in the actual resource",
     ("resource_event", "color_id"): "declared integer; the actual resource returns a string",
+    ("resource_project", "tag_colors"): "declared string; the actual resource returns an object keyed by tag name",
+    ("resource_project", "template"): "declared string; the actual resource returns a boolean",
 }
 
 

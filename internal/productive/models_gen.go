@@ -994,7 +994,7 @@ type ResourceProject struct {
 	Status *ResourceProjectStatus `json:"status,omitempty"`
 
 	// TagColors Color mappings for project tags, keyed by tag name.
-	TagColors *string `json:"tag_colors,omitempty"`
+	TagColors *interface{} `json:"tag_colors,omitempty"`
 
 	// TaskCustomFieldsIds Ordered list of custom field IDs enabled for tasks in this project.
 	TaskCustomFieldsIds *map[string]interface{} `json:"task_custom_fields_ids,omitempty"`
@@ -1003,7 +1003,7 @@ type ResourceProject struct {
 	TaskCustomFieldsPositions *map[string]interface{} `json:"task_custom_fields_positions,omitempty"`
 
 	// Template Whether this project is a template.
-	Template *string `json:"template,omitempty"`
+	Template *interface{} `json:"template,omitempty"`
 
 	// TemplateObject The template this project was created from, if any.
 	TemplateObject *interface{} `json:"template_object,omitempty"`
