@@ -37,7 +37,10 @@ everything else.`,
 
 			plan := app.Config.Autofill
 			if fillSpec != "" {
-				plan, err = resolveAutofillSpec(ctx, app.Client, fillSpec)
+				// nil disables interactive service picking: --fill is meant
+				// for non-interactive/scripted overrides, so an ambiguous
+				// service must be spelled out as "project:hours:service".
+				plan, err = resolveAutofillSpec(ctx, app.Client, fillSpec, nil, nil)
 				if err != nil {
 					return err
 				}

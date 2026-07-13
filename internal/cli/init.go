@@ -3,6 +3,7 @@ package cli
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -68,7 +69,7 @@ by default. Flags allow running it non-interactively.`,
 			if autofillSpec == "" {
 				autofillSpec = promptAutofillSpec(in, out, projects)
 			}
-			autofill, err := resolveAutofillSpec(ctx, client, autofillSpec)
+			autofill, err := resolveAutofillSpec(ctx, client, autofillSpec, in, out)
 			if err != nil {
 				return err
 			}
@@ -114,6 +115,27 @@ func choose(in *bufio.Reader, out interface{ Write([]byte) (int, error) }, purpo
 	}
 }
 
+// chooseService prompts the user to pick one of candidates by number or id,
+// used when a project has more than one trackable service.
+func chooseService(in *bufio.Reader, out interface{ Write([]byte) (int, error) }, projectName string, candidates []productive.Record[productive.ResourceService]) (productive.Record[productive.ResourceService], error) {
+	fmt.Fprintf(out, "Multiple trackable services found for %q:\n", projectName)
+	for i, s := range candidates {
+		fmt.Fprintf(out, "  %d) %s (id=%s)\n", i+1, str(s.Attributes.Name), s.ID)
+	}
+	for {
+		choice := prompt(in, out, "Which service? (number or id): ")
+		if n, err := strconv.Atoi(choice); err == nil && n >= 1 && n <= len(candidates) {
+			return candidates[n-1], nil
+		}
+		for _, s := range candidates {
+			if s.ID == choice {
+				return s, nil
+			}
+		}
+		fmt.Fprintln(out, "not a valid choice, try again")
+	}
+}
+
 func promptAutofillSpec(in *bufio.Reader, out interface{ Write([]byte) (int, error) }, projects []productive.Record[productive.ResourceProject]) string {
 	fmt.Fprintf(out, "Active projects:\n")
 	for _, p := range projects {
@@ -125,9 +147,14 @@ func promptAutofillSpec(in *bufio.Reader, out interface{ Write([]byte) (int, err
 	return prompt(in, out, `Autofill defaults as "project:hours,project:hours" (e.g. "dreamfi:7,internal:1"), or blank to skip: `)
 }
 
-// resolveAutofillSpec parses "project:hours,project:hours" and resolves
-// each project to its single trackable service.
-func resolveAutofillSpec(ctx context.Context, client *productive.Client, spec string) ([]config.AutofillProject, error) {
+// resolveAutofillSpec parses "project:hours" or "project:hours:service"
+// (comma-separated), resolving each project to a service: its single
+// trackable one, the given service id/name when specified, or (when in is
+// non-nil) one chosen interactively when a project has more than one
+// trackable service (common when a project rolls services over across
+// budget periods). Pass a nil in to disable prompting and instead fail with
+// the list of candidates, e.g. for non-interactive callers like --fill.
+func resolveAutofillSpec(ctx context.Context, client *productive.Client, spec string, in *bufio.Reader, w interface{ Write([]byte) (int, error) }) ([]config.AutofillProject, error) {
 	spec = strings.TrimSpace(spec)
 	if spec == "" {
 		return nil, nil
@@ -139,19 +166,29 @@ func resolveAutofillSpec(ctx context.Context, client *productive.Client, spec st
 		if part == "" {
 			continue
 		}
-		name, hoursStr, ok := strings.Cut(part, ":")
-		if !ok {
-			return nil, fmt.Errorf("invalid autofill entry %q: expected project:hours", part)
+		fields := strings.SplitN(part, ":", 3)
+		if len(fields) < 2 {
+			return nil, fmt.Errorf("invalid autofill entry %q: expected project:hours or project:hours:service", part)
 		}
-		hours, err := strconv.ParseFloat(strings.TrimSpace(hoursStr), 64)
+		name := strings.TrimSpace(fields[0])
+		hours, err := strconv.ParseFloat(strings.TrimSpace(fields[1]), 64)
 		if err != nil {
 			return nil, fmt.Errorf("invalid hours in %q: %w", part, err)
 		}
-		project, err := resolveProject(ctx, client, strings.TrimSpace(name))
+		var serviceFlag string
+		if len(fields) == 3 {
+			serviceFlag = strings.TrimSpace(fields[2])
+		}
+
+		project, err := resolveProject(ctx, client, name)
 		if err != nil {
 			return nil, err
 		}
-		service, err := resolveService(ctx, client, project.ID, "")
+		service, err := resolveService(ctx, client, project.ID, serviceFlag)
+		var ambiguous *ambiguousServiceError
+		if errors.As(err, &ambiguous) && in != nil {
+			service, err = chooseService(in, w, name, ambiguous.Candidates)
+		}
 		if err != nil {
 			return nil, fmt.Errorf("resolving service for project %q: %w", name, err)
 		}

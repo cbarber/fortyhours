@@ -53,7 +53,7 @@ func resolveService(ctx context.Context, c *productive.Client, projectID, servic
 
 	var trackable []productive.Record[productive.ResourceService]
 	for _, s := range services {
-		if s.Attributes.ForTracking != nil && *s.Attributes.ForTracking {
+		if isTrackable(s.Attributes) {
 			trackable = append(trackable, s)
 		}
 	}
@@ -61,14 +61,37 @@ func resolveService(ctx context.Context, c *productive.Client, projectID, servic
 	case 1:
 		return trackable[0], nil
 	case 0:
-		return productive.Record[productive.ResourceService]{}, fmt.Errorf("no trackable service found on this project; pass --service")
+		return productive.Record[productive.ResourceService]{}, fmt.Errorf("no trackable service found on this project; run `fortyhours services list --project <name>` and pass --service")
 	default:
-		names := make([]string, len(trackable))
-		for i, s := range trackable {
-			names[i] = fmt.Sprintf("%s (id=%s)", str(s.Attributes.Name), s.ID)
-		}
-		return productive.Record[productive.ResourceService]{}, fmt.Errorf("multiple trackable services found, pass --service: %s", strings.Join(names, ", "))
+		return productive.Record[productive.ResourceService]{}, &ambiguousServiceError{Candidates: trackable}
 	}
+}
+
+// ambiguousServiceError means a project has more than one trackable
+// service, so the caller must disambiguate: via --service, or (if it has a
+// terminal to prompt on) by choosing from Candidates.
+type ambiguousServiceError struct {
+	Candidates []productive.Record[productive.ResourceService]
+}
+
+func (e *ambiguousServiceError) Error() string {
+	names := make([]string, len(e.Candidates))
+	for i, s := range e.Candidates {
+		names[i] = fmt.Sprintf("%s (id=%s)", str(s.Attributes.Name), s.ID)
+	}
+	return fmt.Sprintf("multiple trackable services found, pass --service: %s", strings.Join(names, ", "))
+}
+
+// isTrackable reports whether time can be tracked against a service.
+// Productive's default (sparse) service response includes
+// time_tracking_enabled but omits the filter-only for_tracking field
+// entirely, so prefer the former and only fall back to the latter if it's
+// ever present instead.
+func isTrackable(s productive.ResourceService) bool {
+	if s.TimeTrackingEnabled != nil {
+		return *s.TimeTrackingEnabled
+	}
+	return s.ForTracking != nil && *s.ForTracking
 }
 
 // resolveEvent finds the single absence event category matching name

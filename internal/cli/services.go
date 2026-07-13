@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"strconv"
+
 	"github.com/cbarber/fortyhours/internal/productive"
 	"github.com/spf13/cobra"
 )
@@ -46,7 +48,7 @@ func newServicesListCommand() *cobra.Command {
 
 			rows := make([][]string, len(services))
 			for i, s := range services {
-				rows[i] = []string{s.ID, str(s.Attributes.Name), intStr(s.Attributes.ProjectId), boolStr(s.Attributes.ForTracking)}
+				rows[i] = []string{s.ID, str(s.Attributes.Name), intStr(s.Attributes.ProjectId), strconv.FormatBool(isTrackable(s.Attributes))}
 			}
 			return printTable(app.Out, []string{"ID", "NAME", "PROJECT_ID", "TRACKABLE"}, rows)
 		},
