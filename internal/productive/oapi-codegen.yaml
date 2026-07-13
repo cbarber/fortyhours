@@ -1,0 +1,6 @@
+package: productive
+output: models_gen.go
+generate:
+  models: true
+output-options:
+  skip-prune: true

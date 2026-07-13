@@ -1,0 +1,3320 @@
+openapi: 3.1.0
+info:
+  title: API Documentation
+paths: {}
+components:
+  schemas:
+    resource_booking:
+      type: object
+      title: Booking Resource
+      properties:
+        task_id:
+          type: integer
+          title: Task
+          description: The ID of the task associated with this booking, if applicable.
+          example:
+          - 123
+        before:
+          type: string
+          title: Before
+          format: date
+          description: Internal field used for date-range filtering.
+          example:
+            eq: value
+        approved_at:
+          type: string
+          title: Approved At
+          format: date-time
+          description: Timestamp when the booking was approved, or null if not yet
+            approved.
+          example:
+            gt: '2026-01-01'
+        time:
+          type: integer
+          title: Time
+          description: The booked time in minutes per day.
+          example:
+            gt: 0
+        after:
+          type: string
+          title: After
+          format: date
+          description: Internal field used for date-range filtering.
+          example:
+            eq: value
+        canceler:
+          title: Canceler
+          description: The person who canceled this booking.
+          example:
+            eq: value
+        draft:
+          type: boolean
+          title: Draft
+          description: Whether the booking is tentative (draft) or confirmed.
+          example:
+            eq: value
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier of the booking.
+          example:
+          - 123
+        approved:
+          title: Approved
+          description: Indicates whether the booking has been approved.
+          example:
+            eq: value
+        percentage:
+          type: integer
+          title: Percentage
+          description: Scheduled time as a percentage of the person's daily capacity.
+          example:
+            eq: value
+        project_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Type of the associated project (e.g. billable or internal).
+          example:
+            eq: active
+        external_id:
+          type: string
+          title: External
+          description: External identifier for integration with third-party systems.
+          example:
+          - 123
+        approver_id:
+          type: integer
+          title: Approver
+          description: The ID of the person who approved this booking.
+          example:
+          - 123
+        autotracking:
+          type: boolean
+          title: Autotracking
+          description: When true, time entries are automatically tracked against this
+            booking.
+          example:
+            eq: value
+        task:
+          title: Task
+          description: The task associated with this booking, if applicable.
+          example:
+            eq: value
+        attachments:
+          title: Attachments
+          description: Files attached to this booking.
+          example:
+            eq: value
+        updated_at:
+          type: string
+          title: Updated At
+          format: date-time
+          description: Timestamp when this booking was last updated.
+          example:
+            gt: '2026-01-01'
+        rejected_at:
+          type: string
+          title: Rejected At
+          format: date-time
+          description: Date when the booking was rejected.
+          example:
+            gt: '2026-01-01'
+        rejected_reason:
+          type: string
+          title: Rejected Reason
+          description: Reason provided when the booking was rejected.
+          example:
+            eq: value
+        creator:
+          title: Creator
+          description: The person who created this booking.
+          example:
+            eq: value
+        resource_request:
+          title: Resource Request
+          description: The resource request this booking fulfills, if applicable.
+          example:
+            eq: value
+        attachment_ids:
+          title: Attachment Ids
+          description: Array of IDs of files attached to this booking.
+          example:
+          - 123
+          - 456
+        canceled_at:
+          type: string
+          title: Canceled At
+          format: date-time
+          description: Date when the booking was canceled.
+          example:
+            gt: '2026-01-01'
+        ended_on:
+          type: string
+          title: Ended On
+          format: date
+          description: Booking end date.
+          example:
+            eq: value
+        people_custom_fields:
+          type: string
+          title: People Custom Fields
+          description: Custom field values defined on the assigned person.
+          example:
+            eq: value
+        rejected:
+          title: Rejected
+          description: Whether this booking has been rejected.
+          example:
+            eq: value
+        resource_request_id:
+          type: integer
+          title: Resource Request
+          description: ID of the resource request this booking fulfills.
+          example:
+          - 123
+        origin_id:
+          type: integer
+          title: Origin
+          description: The ID of the origin record (e.g. resource request) that created
+            this booking.
+          example:
+          - 123
+        with_draft:
+          type: boolean
+          title: With Draft
+          description: When true, draft bookings are included in availability and
+            planning views.
+          example:
+            eq: value
+        stage_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Stage Type
+          description: The stage type of the booking within the resource planning
+            workflow.
+          example:
+            eq: active
+        custom_field_people:
+          title: Custom Field People
+          description: People linked via custom fields on this booking.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Timestamp of the last activity recorded on this booking.
+          example:
+            gt: '2026-01-01'
+        service:
+          title: Service
+          description: The budget service being scheduled in this booking.
+          example:
+            eq: value
+        hours:
+          type: integer
+          title: Hours
+          description: Scheduled hours per day for this booking.
+          example:
+            eq: value
+        origin:
+          title: Origin
+          description: The booking origin (e.g. the resource request that generated
+            this booking).
+          example:
+            eq: value
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Date when the booking was created.
+          example:
+            gt: '2026-01-01'
+        updater:
+          title: Updater
+          description: The person who last updated this booking.
+          example:
+            eq: value
+        approval_statuses:
+          title: Approval Statuses
+          description: Per-approver approval status records for this booking.
+          example:
+            eq: active
+        service_id:
+          type: integer
+          title: Service
+          description: The ID of the service this booking is scheduled against.
+          example:
+          - 123
+        rejecter:
+          title: Rejecter
+          description: The person who rejected this booking.
+          example:
+            eq: value
+        person_subsidiary_id:
+          type: integer
+          title: Person Subsidiary
+          description: ID of the subsidiary the assigned person belongs to.
+          example:
+          - 123
+        person_id:
+          type: integer
+          title: Person
+          description: ID of the person assigned to this booking.
+          example:
+          - 123
+        scenario_item:
+          title: Scenario Item
+          description: The scenario item this booking is linked to, if created from
+            a scenario.
+          example:
+            eq: value
+        project_id:
+          type: integer
+          title: Project
+          description: ID of the project this booking relates to.
+          example:
+          - 123
+        budget_id:
+          type: integer
+          title: Budget
+          description: ID of the budget (deal) associated with the booking's service.
+          example:
+          - 123
+        total_time:
+          type: integer
+          title: Total Time
+          description: The total booked time in minutes across the entire booking
+            period.
+          example:
+            gt: 0
+        note:
+          type: string
+          title: Note
+          description: An optional note or description for this booking.
+          example:
+            eq: value
+        person_type:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Person Type
+          description: Type of the assigned person (e.g. employee, contractor, placeholder).
+          example:
+            eq: active
+        total_working_days:
+          type: integer
+          title: Total Working Days
+          description: The total number of working days covered by this booking.
+          example:
+            eq: value
+        approver:
+          title: Approver
+          description: The person who approved this booking.
+          example:
+            eq: value
+        status:
+          title: Status
+          description: The current approval status of the booking (e.g. pending, approved,
+            rejected).
+          example:
+            eq: active
+        event:
+          title: Event
+          description: The absence event category (e.g. vacation, sick leave) for
+            absence bookings.
+          example:
+            eq: value
+        company_id:
+          type: integer
+          title: Company
+          description: ID of the client company associated with this booking.
+          example:
+          - 123
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: File attachments linked via custom fields on this booking.
+          example:
+            gt: '2026-01-01'
+        approval_status:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 5
+          type: integer
+          title: Approval Status
+          description: Whether the booking has been approved. Reflects the overall
+            approval_status.
+          example:
+            eq: active
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values for this booking.
+          example:
+            eq: value
+        event_id:
+          type: integer
+          title: Event
+          description: ID of the absence event category for this booking.
+          example:
+          - 123
+        person:
+          title: Person
+          description: The person assigned to this booking.
+          example:
+            eq: value
+        organization:
+          title: Organization
+          description: The organization this booking belongs to.
+          example:
+            eq: value
+        canceled:
+          type: boolean
+          title: Canceled
+          description: Whether this booking has been canceled.
+          example:
+            eq: value
+        booking_method_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Booking Method
+          description: ID of the booking method used to create this booking (e.g.
+            hours per day, percentage, total hours).
+          example:
+          - 123
+        tags:
+          type: integer
+          title: Tags
+          description: Tags associated with this booking.
+          example:
+            eq: value
+        started_on:
+          type: string
+          title: Started On
+          format: date
+          description: The start date of the booking.
+          example:
+            eq: value
+        use_salary_currency:
+          type: boolean
+          title: Use Salary Currency
+          description: When true, cost calculations use the person's salary currency
+            instead of the service currency.
+          example:
+            eq: value
+        billing_type_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Billing Type
+          description: ID of the billing type of the associated service.
+          example:
+          - 123
+        booking_type:
+          type: string
+          title: Booking Type
+          description: Whether this is a project booking or an absence booking.
+          example:
+            eq: active
+      description: A booking represents planned work or an absence scheduled for a
+        person, linked to a service or absence category.
+      example:
+        id: '1594'
+        type: bookings
+        attributes:
+          hours: 8
+          time: 480
+          started_on: '2026-03-17'
+          ended_on: '2026-03-21'
+          total_time: 2400
+          total_working_days: 5
+          percentage: null
+          note: null
+          created_at: '2026-03-01T09:00:00.000+00:00'
+          updated_at: '2026-03-01T09:00:00.000+00:00'
+          people_custom_fields: {}
+          approved: false
+          approved_at: null
+          rejected: false
+          rejected_reason: null
+          rejected_at: null
+          canceled: false
+          canceled_at: null
+          booking_method_id: 1
+          autotracking: false
+          draft: false
+          custom_fields: null
+          last_activity_at: '2026-03-01T09:00:00.000+00:00'
+        relationships:
+          person:
+            data:
+              type: people
+              id: '12'
+          service:
+            data:
+              type: services
+              id: '1856422'
+          event:
+            data: null
+          task:
+            data: null
+    resource_event:
+      type: object
+      title: Event Resource
+      properties:
+        organization:
+          title: Organization
+          description: The organization this event belongs to.
+          example:
+            eq: value
+        description:
+          type: string
+          title: Description
+          example:
+            eq: value
+        archived_at:
+          type: string
+          title: Archived At
+          format: date-time
+          description: Timestamp when this event was archived, or null if it is still
+            active.
+          example:
+            gt: '2026-01-01'
+        half_day_bookings:
+          type: boolean
+          title: Half Day Bookings
+          description: When true, bookings for this event can be created in half-day
+            increments.
+          example:
+            eq: value
+        limitation_type_id:
+          enum:
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Limitation Type
+          description: 'ID of the limitation type controlling how time-off for this
+            event is tracked: limited by days (2), limited by hours (3), or unlimited
+            by hours (4).'
+          example:
+          - 123
+        id:
+          type: integer
+          title: Id
+          description: The unique identifier of this event.
+          example:
+          - 123
+        icon_id:
+          type: string
+          title: Icon
+          description: The icon identifier used to visually represent this event in
+            the UI.
+          example:
+          - 123
+        status:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Status
+          description: The archival status of this event, either active (1) or archived
+            (2).
+          example:
+            eq: active
+        sync_personal_integrations:
+          type: boolean
+          title: Sync Personal Integrations
+          description: When true, bookings for this event are automatically synced
+            to personal calendar integrations.
+          example:
+            eq: value
+        color_id:
+          type: integer
+          title: Color
+          description: ID of the color associated with this event for display purposes.
+          example:
+          - 123
+        absence_type:
+          enum:
+          - time_off
+          - remote_work
+          type: string
+          title: Absence Type
+          description: The absence category of this event, either time_off (standard
+            time-off) or remote_work.
+          example:
+            eq: active
+        limited:
+          type: boolean
+          title: Limited
+          description: When true, this event has a limit on the amount of time-off
+            that can be booked.
+          example:
+            eq: value
+        event_type_id:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Event Type
+          description: ID of the event type indicating whether this absence is paid
+            (1) or unpaid (2).
+          example:
+          - 123
+        name:
+          type: string
+          title: Name
+          description: The display name of this event.
+          example:
+            eq: value
+        limitation_type:
+          enum:
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Limitation Type
+          description: The limitation type of this event used for filtering (limited
+            by days, limited by hours, or unlimited by hours).
+          example:
+            eq: active
+      description: An absence event type (e.g. vacation, sick leave) used to categorize
+        time-off bookings in the resource planner.
+      example:
+        id: '123'
+        type: events
+        attributes:
+          event_type: task.created
+          occurred_at: '2026-01-15T10:00:00Z'
+          payload: {}
+        relationships: {}
+    resource_person:
+      type: object
+      title: Person Resource
+      properties:
+        accessible_project_id:
+          type: integer
+          title: Accessible Project
+          description: Filter by accessible project ID — returns people who have access
+            to the specified project.
+          example:
+          - 123
+        project_id:
+          type: integer
+          title: Project
+          description: Filter by project ID — returns people who are members of the
+            specified project.
+          example:
+          - 123
+        project_watching:
+          type: integer
+          title: Project Watching
+          description: Filter by project_watching — returns people who are auto-subscribed
+            to the specified project.
+          example:
+            eq: value
+        email:
+          type: string
+          title: Email
+          description: The person's email address.
+          example:
+            eq: value
+        schedulable:
+          type: boolean
+          title: Schedulable
+          description: Filter for schedulable people — returns employees, contractors,
+            and placeholders who can be booked.
+          example:
+            eq: value
+        import:
+          title: Import
+        holiday_calendar_id:
+          type: integer
+          title: Holiday Calendar
+          description: ID of the holiday calendar assigned to this person for scheduling
+            and time-off calculations.
+          example:
+          - 123
+        full_query:
+          type: string
+          title: Full Query
+          description: Full text search filter — matches against name and other indexed
+            fields.
+          example:
+            eq: value
+        company_name:
+          title: Company Name
+          description: The name of the company this person belongs to.
+          example:
+            eq: value
+        autotracking:
+          type: boolean
+          title: Autotracking
+          description: Whether automatic time tracking is enabled for this person.
+          example:
+            eq: value
+        time_tracking_policy:
+          title: Time Tracking Policy
+          description: The time tracking policy assigned to this person.
+          example:
+            gt: 0
+        time_unlocked_end_date:
+          type: string
+          title: Time Unlocked End Date
+          format: date
+          description: End date of the time unlock window.
+          example:
+            gt: '2026-01-01'
+        deactivated_at:
+          type: string
+          title: Deactivated At
+          format: date-time
+          description: Timestamp when this person was deactivated, or null if currently
+            active.
+          example:
+            gt: '2026-01-01'
+        status_text:
+          type: string
+          title: Status Text
+          description: Short text message shown as the person's current status.
+          example:
+            eq: active
+        granular_notification_preferences:
+          type: object
+          title: Granular Notification Preferences
+          description: Granular notification preferences for this person.
+          example:
+            eq: value
+        custom_role:
+          title: Custom Role
+          description: The custom role (permission set) assigned to this person.
+          example:
+            eq: value
+        archived_at:
+          type: string
+          title: Archived At
+          format: date-time
+          description: Timestamp when this person was archived, or null if not archived.
+          example:
+            gt: '2026-01-01'
+        id:
+          type: integer
+          title: Id
+          description: The unique identifier of the person.
+          example:
+          - 123
+        custom_field_people:
+          title: Custom Field People
+          description: People referenced in custom field values for this person.
+          example:
+            eq: value
+        manager_id:
+          type: integer
+          title: Manager
+          description: ID of the person who is this person's direct manager.
+          example:
+          - 123
+        sample_data:
+          type: boolean
+          title: Sample Data
+          description: Whether this person was created as part of sample/demo data.
+          example:
+            eq: value
+        two_factor_auth:
+          type: boolean
+          title: Two Factor Auth
+          description: Whether two-factor authentication is enabled for this person's
+            user account.
+          example:
+            eq: value
+        bookings_before:
+          type: string
+          title: Bookings Before
+          format: date
+          description: Filter by bookings_before date — used with resourcing filters
+            to find people with bookings starting on or before this date.
+          example:
+            eq: value
+        avatar_url:
+          type: string
+          title: Avatar Url
+          description: URL of the person's avatar thumbnail.
+          example:
+            eq: value
+        organization:
+          title: Organization
+          description: The organization this person belongs to.
+          example:
+            eq: value
+        subsidiary_id:
+          type: integer
+          title: Subsidiary
+          description: ID of the subsidiary company this person belongs to, if any.
+          example:
+          - 123
+        virtual:
+          type: boolean
+          title: Virtual
+          description: Whether this is a virtual person record.
+          example:
+            eq: value
+        subsidiary:
+          title: Subsidiary
+          description: The subsidiary (workplace) this person is associated with.
+          example:
+            eq: value
+        bookings_after:
+          type: string
+          title: Bookings After
+          format: date
+          description: Filter by bookings_after date — used with resourcing filters
+            to find people with bookings ending on or after this date.
+          example:
+            eq: value
+        jump_query:
+          type: string
+          title: Jump Query
+          description: Quick jump search filter — matches against name for navigation
+            shortcuts.
+          example:
+            eq: value
+        joined_at:
+          type: string
+          title: Joined At
+          format: date-time
+          description: Date when this person joined the organization.
+          example:
+            gt: '2026-01-01'
+        time_unlocked:
+          type: boolean
+          title: Time Unlocked
+          description: Whether the person's time entries are unlocked for editing
+            outside the normal window.
+          example:
+            gt: 0
+        custom_role_id:
+          type: integer
+          title: Custom Role
+          description: ID of the custom role assigned to this person, if any.
+          example:
+          - 123
+        service_type_id:
+          type: integer
+          title: Service Type
+          description: Filter by service type ID — returns people assigned to the
+            specified service types.
+          example:
+          - 123
+        status:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Status
+          description: 'Filter by person status: 1 (active) or 2 (deactivated).'
+          example:
+            eq: active
+        tags:
+          type: string
+          title: Tags
+          description: Tags applied to this person.
+          example:
+            eq: value
+        time_tracking_policy_id:
+          type: integer
+          title: Time Tracking Policy
+          description: ID of the time tracking policy applied to this person.
+          example:
+          - 123
+        hrm_type_id:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Hrm Type
+          description: 'HRM type ID: 1 for employee, 2 for contact. Null for placeholders.'
+          example:
+          - 123
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: File attachments associated with this person via custom fields.
+          example:
+            gt: '2026-01-01'
+        external_id:
+          type: string
+          title: External
+          description: External identifier for syncing this person with an external
+            system.
+          example:
+          - 123
+        accessible_deal_id:
+          type: integer
+          title: Accessible Deal
+          description: Filter by accessible deal ID — returns people who have access
+            to the specified deal.
+          example:
+          - 123
+        fuzzy_people:
+          type: string
+          title: Fuzzy People
+          description: Fuzzy people filter for approximate person name matching.
+          example:
+            eq: value
+        subscribable_id:
+          type: integer
+          title: Subscribable
+          description: Filter by subscribable ID — returns subscribers of the specified
+            resource.
+          example:
+          - 123
+        fuzzy_dates:
+          type: string
+          title: Fuzzy Dates
+          description: Fuzzy date filter for approximate date matching.
+          example:
+            gt: '2026-01-01'
+        query:
+          type: string
+          title: Query
+          description: Text search filter — matches by full name (exact) or contains
+            partial name.
+          example:
+            eq: value
+        accessible_filter_id:
+          type: string
+          title: Accessible Filter
+          description: Filter by accessible filter ID — returns people who are members
+            of the specified saved view or filter.
+          example:
+          - 123
+        offboarding_id:
+          type: integer
+          title: Offboarding
+          description: ID of the offboarding process associated with this person's
+            deactivation.
+          example:
+          - 123
+        approval_policy_assignment:
+          title: Approval Policy Assignment
+          description: The approval policy assignment for this person.
+          example:
+            eq: value
+        last_name:
+          type: string
+          title: Last Name
+          description: The person's last name.
+          example:
+            eq: value
+        agent:
+          type: boolean
+          title: Agent
+          description: The AI agent account linked to this person, if this person
+            represents an AI agent.
+          example:
+            eq: value
+        first_name:
+          type: string
+          title: First Name
+          description: The person's first name.
+          example:
+            eq: value
+        time_unlocked_period_id:
+          type: integer
+          title: Time Unlocked Period
+          description: Period identifier for the time unlock.
+          example:
+          - 123
+        team:
+          type: integer
+          title: Team
+          description: Filter by team ID — returns people who belong to the specified
+            team(s).
+          example:
+            eq: value
+        company:
+          title: Company
+          description: The company (client) this person belongs to.
+          example:
+            eq: value
+        offboarding_status:
+          enum:
+          - not_initiated
+          - in_progress
+          - failed
+          - completed
+          type: string
+          title: Offboarding Status
+          description: 'Current offboarding status: not_initiated, in_progress, or
+            completed.'
+          example:
+            eq: active
+        account_id:
+          title: Account
+          description: The organization (account) ID.
+          example:
+          - 123
+        approval_policy_id:
+          type: integer
+          title: Approval Policy
+          description: ID of the approval policy assigned to this person for time-off
+            and booking approvals.
+          example:
+          - 123
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Timestamp when this person was created.
+          example:
+            gt: '2026-01-01'
+        permissions:
+          type: string
+          title: Permissions
+          description: Filter by permission set — returns people with the specified
+            permission slugs.
+          example:
+            eq: value
+        placeholder:
+          type: boolean
+          title: Placeholder
+          description: Whether this person is a placeholder used for resource planning,
+            without a real user account.
+          example:
+            eq: value
+        subscriber_ids:
+          title: Subscriber Ids
+          description: IDs of people subscribed to follow this person.
+          example:
+          - 123
+          - 456
+        status_emoji:
+          type: string
+          title: Status Emoji
+          description: Emoji shown as the person's current status indicator.
+          example:
+            eq: active
+        service_types:
+          title: Service Types
+          description: The service types this person delivers.
+          example:
+            eq: active
+        time_off_status_sync:
+          type: boolean
+          title: Time Off Status Sync
+          description: Whether this person's time-off status is synced from an external
+            calendar.
+          example:
+            gt: 0
+        availabilities:
+          title: Availabilities
+          description: The person's work availability windows.
+          example:
+            eq: value
+        external_sync:
+          type: boolean
+          title: External Sync
+          description: Whether this person is managed by an external sync integration.
+          example:
+            eq: value
+        tag_list:
+          type: string
+          title: Tag List
+          description: Comma-separated list of tags applied to this person.
+          example:
+            eq: value
+        last_seen_at:
+          type: string
+          title: Last Seen At
+          format: date-time
+          description: Timestamp when this person was last seen active in the application.
+          example:
+            gt: '2026-01-01'
+        color_id:
+          type: integer
+          title: Color
+          description: Color identifier used to visually distinguish this person in
+            the UI.
+          example:
+          - 123
+        teams:
+          title: Teams
+          description: The teams this person belongs to.
+          example:
+            eq: value
+        time_unlocked_start_date:
+          type: string
+          title: Time Unlocked Start Date
+          format: date
+          description: Start date of the time unlock window.
+          example:
+            gt: '2026-01-01'
+        timesheet_submission_disabled:
+          type: boolean
+          title: Timesheet Submission Disabled
+          description: Whether timesheet submission is disabled for this person.
+          example:
+            gt: 0
+        manager:
+          title: Manager
+          description: The person's manager.
+          example:
+            eq: value
+        time_unlocked_on:
+          type: string
+          title: Time Unlocked On
+          format: date
+          description: The specific date on which the time unlock was applied.
+          example:
+            gt: 0
+        title:
+          type: string
+          title: Title
+          description: The person's job title (e.g. CEO, Manager, Developer).
+          example:
+            eq: value
+        user_id:
+          type: integer
+          title: User
+          description: The ID of the user account linked to this person, if any.
+          example:
+          - 123
+        person_type:
+          type: string
+          title: Person Type
+          description: 'Filter by person type — values: user (can log in), contact
+            (external), placeholder (resource planning), agent.'
+          example:
+            eq: active
+        subscribable_type:
+          type: string
+          title: Subscribable Type
+          description: Filter by subscribable type — the resource type to match subscribers
+            against.
+          example:
+            eq: active
+        service_id:
+          type: integer
+          title: Service
+          description: Filter by service ID — returns people who can track time on
+            the specified service.
+          example:
+          - 123
+        is_user:
+          title: Is User
+          description: Whether this person has an associated user account and can
+            log in.
+          example:
+            eq: value
+        company_id:
+          type: integer
+          title: Company
+          description: Filter by company (client) ID.
+          example:
+          - 123
+        invited_at:
+          type: string
+          title: Invited At
+          format: date-time
+          description: Timestamp when the invitation email was sent to this person.
+          example:
+            gt: '2026-01-01'
+        time_unlocked_interval:
+          type: integer
+          title: Time Unlocked Interval
+          description: Number of days in the time unlock interval.
+          example:
+            gt: 0
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values for this person.
+          example:
+            eq: value
+        approval_workflow_id:
+          type: integer
+          title: Approval Workflow
+          description: Filter by approval workflow ID — returns people who have approvals
+            in the specified workflow.
+          example:
+          - 123
+        name:
+          title: Name
+          description: The person's full name (first and last combined).
+          example:
+            eq: value
+        original_avatar_url:
+          type: string
+          title: Original Avatar Url
+          description: URL of the person's original full-size avatar image.
+          example:
+            eq: value
+        nickname:
+          type: string
+          title: Nickname
+          description: The person's nickname or preferred display name.
+          example:
+            eq: value
+        status_expires_at:
+          type: string
+          title: Status Expires At
+          format: date-time
+          description: Timestamp when the current status emoji and text expire.
+          example:
+            gt: '2026-01-01'
+        champion:
+          title: Champion
+          description: Whether this person is a champion contact.
+          example:
+            eq: value
+        eligible_replacement_managers:
+          type: integer
+          title: Eligible Replacement Managers
+          description: Filter for people eligible to be replacement managers for the
+            specified person ID.
+          example:
+            eq: value
+        role_id:
+          type: integer
+          title: Role
+          description: Filter by built-in role type ID.
+          example:
+          - 123
+        accessible_doc_id:
+          type: integer
+          title: Accessible Doc
+          description: Filter by accessible doc ID — returns people who have access
+            to the specified document.
+          example:
+          - 123
+        contact:
+          type: object
+          title: Contact
+          description: Additional contact data for the person, such as phone numbers
+            and addresses.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Timestamp of the last recorded activity for this person across
+            the platform.
+          example:
+            gt: '2026-01-01'
+      description: A person represents an employee, contractor, contact, or placeholder
+        within the organization.
+      example:
+        id: '12'
+        type: people
+        attributes:
+          agent: false
+          avatar_url: null
+          contact: {}
+          deactivated_at: null
+          email: alex.smith@example.com
+          first_name: Alex
+          last_name: Smith
+          nickname: alex
+          title: Senior Developer
+          role_id: 1
+          status_emoji: null
+          status_text: null
+          status_expires_at: null
+          time_off_status_sync: false
+          archived_at: null
+          autotracking: false
+          joined_at: '2026-01-01T00:00:00.000+00:00'
+          last_seen_at: '2026-03-15T10:00:00.000+00:00'
+          invited_at: null
+          is_user: true
+          user_id: 456
+          tag_list: []
+          virtual: false
+          custom_fields: null
+          created_at: '2026-01-01T00:00:00.000+00:00'
+          placeholder: false
+          color_id: '5'
+          two_factor_auth: false
+          availabilities:
+          - - 8
+            - 0
+            - 0
+            - 0
+            - 0
+          hrm_type_id: 1
+          champion: false
+          offboarding_status: null
+          offboarding_id: null
+          time_tracking_policy_id: null
+        relationships:
+          company:
+            data: null
+          manager:
+            data:
+              type: people
+              id: '8'
+          teams:
+            data:
+            - type: teams
+              id: '3'
+    resource_project:
+      type: object
+      title: Project Resource
+      properties:
+        project_manager:
+          title: Project Manager
+          description: The project manager responsible for this project.
+          example:
+            eq: value
+        profit:
+          type: integer
+          title: Profit
+          description: Total profit across all open budgets for this project, in the
+            organization's base currency.
+          example:
+            eq: value
+        workflow_id:
+          type: integer
+          title: Workflow
+          description: ID of the task workflow used in this project.
+          example:
+          - 123
+        sample_data:
+          type: boolean
+          title: Sample Data
+          description: Whether this project was created with sample/demo data.
+          example:
+            eq: value
+        project_manager_id:
+          type: integer
+          title: Project Manager
+          description: ID of the project manager (responsible person).
+          example:
+          - 123
+        page_custom_fields_ids:
+          type: object
+          title: Page Custom Fields Ids
+          description: Ordered list of custom field IDs enabled for pages in this
+            project.
+          example:
+          - 123
+          - 456
+        person_id:
+          type: integer
+          title: Person
+          description: ID of a person who is a member of this project.
+          example:
+          - 123
+        import:
+          title: Import
+        template:
+          type: string
+          title: Template
+          description: Whether this project is a template.
+          example:
+            eq: value
+        revenue:
+          type: integer
+          title: Revenue
+          description: Total revenue across all open budgets for this project, in
+            the organization's base currency.
+          example:
+            eq: value
+        status:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Status
+          description: Project status. 1 = active, 2 = archived.
+          example:
+            eq: active
+        worked_time:
+          type: integer
+          title: Worked Time
+          description: Total worked time across all open budgets for this project,
+            in minutes.
+          example:
+            gt: 0
+        company_name:
+          title: Company Name
+          description: Name of the client company associated with this project.
+          example:
+            eq: value
+        tag_colors:
+          type: string
+          title: Tag Colors
+          description: Color mappings for project tags, keyed by tag name.
+          example:
+            eq: value
+        profit_margin:
+          type: integer
+          title: Profit Margin
+          description: Profit margin percentage across all open budgets for this project.
+          example:
+            eq: value
+        custom_field_people:
+          title: Custom Field People
+          description: People referenced by person-type custom field values on this
+            project.
+          example:
+            eq: value
+        archived_at:
+          type: string
+          title: Archived At
+          format: date-time
+          description: Archived at date
+          example:
+            gt: '2026-01-01'
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values for this project, keyed by custom field
+            ID.
+          example:
+            eq: value
+        fuzzy_dates:
+          type: string
+          title: Fuzzy Dates
+          format: date
+          description: Fuzzy date range filter for project start/end dates.
+          example:
+            gt: '2026-01-01'
+        project_color:
+          type: integer
+          title: Project Color
+          description: Display color label for the project.
+          example:
+            eq: value
+        estimated_time:
+          type: integer
+          title: Estimated Time
+          description: Total estimated time across all open budgets for this project,
+            in minutes.
+          example:
+            gt: 0
+        company_id:
+          type: integer
+          title: Company
+          description: ID of the client company associated with this project.
+          example:
+          - 123
+        name:
+          type: string
+          title: Name
+          description: Project name.
+          example:
+            eq: value
+        for_tracking:
+          type: boolean
+          title: For Tracking
+          description: Whether this project is eligible for time tracking (i.e. active).
+          example:
+            eq: value
+        project_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Human-readable project type label.
+          example:
+            eq: active
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Timestamp when this project was created.
+          example:
+            gt: '2026-01-01'
+        project_type_id:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Whether this project is billable client work (1) or internal
+            overhead (2).
+          example:
+          - 123
+        responsible_id:
+          type: integer
+          title: Responsible
+          description: ID of the responsible person (project manager) for this project.
+          example:
+          - 123
+        cost:
+          type: integer
+          title: Cost
+          description: Total cost across all open budgets for this project, in the
+            organization's base currency.
+          example:
+            eq: value
+        jump_query:
+          type: string
+          title: Jump Query
+          description: Quick-jump search query for project navigation.
+          example:
+            eq: value
+        fuzzy_people:
+          type: integer
+          title: Fuzzy People
+          description: Fuzzy person filter — matches projects by associated people.
+          example:
+            eq: value
+        template_object:
+          title: Template Object
+          description: The template this project was created from, if any.
+          example:
+            eq: value
+        full_query:
+          type: string
+          title: Full Query
+          description: Full-text search query across all project content fields.
+          example:
+            eq: value
+        number:
+          type: string
+          title: Number
+          description: Auto-generated unique project number.
+          example:
+            eq: value
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: File attachments referenced by custom field values on this
+            project.
+          example:
+            gt: '2026-01-01'
+        project_id:
+          type: integer
+          title: Project
+          description: Alias for the project ID field.
+          example:
+          - 123
+        parent_company_id:
+          type: integer
+          title: Parent Company
+          description: ID of the parent company of the client linked to this project,
+            used for hierarchical company filtering.
+          example:
+          - 123
+        id:
+          type: integer
+          title: Id
+          description: Unique project ID.
+          example:
+          - 123
+        query:
+          type: string
+          title: Query
+          description: Full-text search query across project fields.
+          example:
+            eq: value
+        pending_invoicing:
+          type: integer
+          title: Pending Invoicing
+          description: Total amount pending invoicing across all open budgets for
+            this project, in the organization's base currency.
+          example:
+            eq: value
+        workflow:
+          title: Workflow
+          description: The task workflow used in this project.
+          example:
+            eq: value
+        task_custom_fields_ids:
+          type: object
+          title: Task Custom Fields Ids
+          description: Ordered list of custom field IDs enabled for tasks in this
+            project.
+          example:
+          - 123
+          - 456
+        total_worked_time:
+          type: integer
+          title: Total Worked Time
+          description: Total worked time across all budgets (including closed) for
+            this project, in minutes.
+          example:
+            gt: 0
+        duplication_status:
+          enum:
+          - idle
+          - in_progress
+          - failed
+          type: string
+          title: Duplication Status
+          description: 'Background duplication status when copying from a template.
+            One of: idle, in_progress, done, failed.'
+          example:
+            eq: active
+        budget_id:
+          type: integer
+          title: Budget
+          description: ID of a budget linked to this project.
+          example:
+          - 123
+        project_color_id:
+          type: integer
+          title: Project Color
+          description: Display color ID for the project.
+          example:
+          - 123
+        public_access:
+          type: boolean
+          title: Public Access
+          description: Deprecated. No-op — has no effect.
+          example:
+            eq: value
+        organization:
+          title: Organization
+          description: The organization this project belongs to.
+          example:
+            eq: value
+        page_custom_fields_positions:
+          type: object
+          title: Page Custom Fields Positions
+          description: Display position order for page custom fields in this project.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Timestamp of the most recent activity on this project.
+          example:
+            gt: '2026-01-01'
+        with_templates:
+          type: boolean
+          title: With Templates
+          description: When true, includes project templates in the results (templates
+            are excluded by default).
+          example:
+            eq: value
+        preferences:
+          type: object
+          title: Preferences
+          description: Project-level display and behavior preferences.
+          example:
+            eq: value
+        last_actor:
+          title: Last Actor
+          description: The person who last performed an activity on this project.
+          example:
+            eq: value
+        project_number:
+          type: string
+          title: Project Number
+          description: Formatted project number string (e.g. ACME-001).
+          example:
+            eq: value
+        company:
+          title: Company
+          description: The client company linked to this project.
+          example:
+            eq: value
+        task_custom_fields_positions:
+          type: object
+          title: Task Custom Fields Positions
+          description: Display position order for task custom fields in this project.
+          example:
+            eq: value
+      description: A workspace for tasks, documents, surveys, and budgets. Projects
+        can be billable (client work) or internal (overhead), and provide the organizational
+        structure for team collaboration.
+      example:
+        id: '6899'
+        type: projects
+        attributes:
+          name: Website Redesign
+          number: '12'
+          project_number: '12'
+          project_color_id: 1
+          preferences: {}
+          last_activity_at: '2026-03-15T10:30:00.000+00:00'
+          archived_at: null
+          created_at: '2026-01-01T09:00:00.000+00:00'
+          template: false
+          description: null
+          custom_fields: null
+          tag_colors: {}
+        relationships:
+          company:
+            data:
+              type: companies
+              id: '65111'
+          project_manager:
+            data:
+              type: people
+              id: '12'
+          workflow:
+            data:
+              type: workflows
+              id: '75'
+    resource_service:
+      type: object
+      title: Service Resource
+      properties:
+        bookable_date:
+          type: string
+          title: Bookable Date
+          format: date
+          description: Filters services to those bookable on the specified date, based
+            on the budget's active period. Services on deals are always included.
+          example:
+            gt: '2026-01-01'
+        origin_service_id:
+          type: integer
+          title: Origin Service
+          description: ID of the original service if this was duplicated or rolled
+            over.
+          example:
+          - 123
+        budget_used:
+          title: Budget Used
+          description: Budget consumed so far.
+          example:
+            gt: 0
+        after:
+          type: string
+          title: After
+          format: date
+          description: Earliest bookable date for this service.
+          example:
+            eq: value
+        budget_status:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Budget Status
+          description: Current status of the service budget (e.g. on track, over budget).
+          example:
+            gt: 0
+        worked_time:
+          type: integer
+          title: Worked Time
+          description: Total hours tracked on this service.
+          example:
+            gt: 0
+        budget_cap_enabled:
+          type: boolean
+          title: Budget Cap Enabled
+          description: Whether a hard budget cap prevents tracking beyond the budget
+            total.
+          example:
+            gt: 0
+        project_id:
+          type: integer
+          title: Project
+          description: The project this service is linked to.
+          example:
+          - 123
+        cost:
+          title: Cost
+          description: Total cost including labor and expenses.
+          example:
+            eq: value
+        profit_default:
+          title: Profit Default
+          description: Service profit in the organization's default currency.
+          example:
+            eq: value
+        estimated_cost:
+          type: number
+          title: Estimated Cost
+          description: Estimated cost based on estimated time and cost rates.
+          example:
+            gt: 0
+        currency_default:
+          title: Currency Default
+          description: Currency code in the organization's default currency.
+          example:
+            eq: value
+        future_cost:
+          title: Future Cost
+          description: Projected cost from future scheduled bookings.
+          example:
+            eq: value
+        deal_stage_id:
+          type: integer
+          title: Deal Stage
+          description: The pipeline stage the parent deal is in.
+          example:
+          - 123
+        expense_amount:
+          title: Expense Amount
+          description: Total expense amount on this service.
+          example:
+            gt: 0
+        updated_at:
+          type: string
+          title: Updated At
+          format: date
+          description: Timestamp of the last update to this service.
+          example:
+            gt: '2026-01-01'
+        price:
+          type: number
+          title: Price
+          description: Unit price for this service.
+          example:
+            gt: 0
+        unit_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Unit
+          description: 'Tracking unit: hours, days, or pieces.'
+          example:
+          - 123
+        budget_total_normalized:
+          title: Budget Total Normalized
+          description: Total budget for this service in the organization's normalized
+            currency.
+          example:
+            gt: 0
+        future_cost_normalized:
+          title: Future Cost Normalized
+          description: Projected cost from future scheduled bookings in the organization's
+            normalized currency.
+          example:
+            eq: value
+        deleted_at:
+          type: string
+          title: Deleted At
+          format: date-time
+          description: Soft-deletion timestamp.
+          example:
+            gt: '2026-01-01'
+        work_cost_default:
+          title: Work Cost Default
+          description: Labor cost from tracked time in the organization's default
+            currency.
+          example:
+            eq: value
+        discount_amount:
+          title: Discount Amount
+          description: Total discount in monetary terms.
+          example:
+            gt: 0
+        project_name:
+          title: Project Name
+          description: Name of the project this service is linked to.
+          example:
+            eq: value
+        bookable_before:
+          type: string
+          title: Bookable Before
+          format: date
+          description: End date until which resource bookings are allowed.
+          example:
+            eq: value
+        expense_cost:
+          title: Expense Cost
+          description: Labor cost from worked time at cost rates.
+          example:
+            eq: value
+        service_type_id:
+          type: integer
+          title: Service Type
+          description: The work category this service belongs to.
+          example:
+          - 123
+        worked_cost:
+          title: Worked Cost
+          description: Labor cost calculated from worked time.
+          example:
+            eq: value
+        cost_normalized:
+          title: Cost Normalized
+          description: Total cost including labor and expenses in the organization's
+            normalized currency.
+          example:
+            eq: value
+        for_tracking:
+          type: boolean
+          title: For Tracking
+          description: Whether this service is available for time tracking.
+          example:
+            eq: value
+        company_id:
+          type: integer
+          title: Company
+          description: The company (client) linked to the deal this service is on.
+          example:
+          - 123
+        import:
+          title: Import
+        future_revenue:
+          title: Future Revenue
+          description: Revenue projected from future bookings.
+          example:
+            eq: value
+        limitation_type:
+          enum:
+          - no_limitation
+          - estimate_limitation
+          - quantity_limitation
+          - budget_fully_used
+          type: string
+          title: Limitation Type
+          description: Budget cap enforcement type (soft warning vs hard cap).
+          example:
+            eq: active
+        bookable_date_for_period:
+          type: string
+          title: Bookable Date For Period
+          format: date
+          description: '**Deprecated — use `bookable_date` instead**, which now returns
+            identical results. Filters services to those bookable on the specified
+            date, based on the budget''s active period. This filter will be removed
+            in a future API version.'
+          example:
+            gt: '2026-01-01'
+        profit_normalized:
+          title: Profit Normalized
+          description: Service profit in the organization's normalized currency.
+          example:
+            eq: value
+        revenue_default:
+          title: Revenue Default
+          description: Total revenue from this service in the organization's default
+            currency.
+          example:
+            eq: value
+        person_id:
+          type: integer
+          title: Person
+          description: The person assigned to this service (for person-scoped services).
+          example:
+          - 123
+        expense_amount_normalized:
+          title: Expense Amount Normalized
+          description: Total expense amount on this service in the organization's
+            normalized currency.
+          example:
+            gt: 0
+        booking_tracking_enabled:
+          type: boolean
+          title: Booking Tracking Enabled
+          description: Whether resource bookings are enabled for this service.
+          example:
+            eq: value
+        future_budget_used:
+          title: Future Budget Used
+          description: Budget that will be consumed by future bookings.
+          example:
+            gt: 0
+        projected_revenue_normalized:
+          title: Projected Revenue Normalized
+          description: Expected revenue including future scheduled work in the organization's
+            normalized currency.
+          example:
+            eq: value
+        quantity:
+          type: number
+          title: Quantity
+          description: Number of units (hours, days, or pieces) for this service.
+          example:
+            eq: value
+        probability:
+          type: integer
+          title: Probability
+          description: Win probability of the parent deal (percentage).
+          example:
+            eq: value
+        task_id:
+          type: integer
+          title: Task
+          description: The task this service is linked to.
+          example:
+          - 123
+        sales_status_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Sales Status
+          description: The sales status ID of the parent deal.
+          example:
+          - 123
+        discount_amount_default:
+          title: Discount Amount Default
+          description: Total discount in monetary terms in the organization's default
+            currency.
+          example:
+            gt: 0
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: Files in file-type custom fields.
+          example:
+            gt: '2026-01-01'
+        price_normalized:
+          title: Price Normalized
+          description: Unit price for this service in the organization's normalized
+            currency.
+          example:
+            gt: 0
+        revenue_normalized:
+          title: Revenue Normalized
+          description: Total revenue from this service in the organization's normalized
+            currency.
+          example:
+            eq: value
+        section_id:
+          type: integer
+          title: Section
+          description: The section grouping this service within the deal.
+          example:
+          - 123
+        billing_type_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Billing Type
+          description: 'How this service is billed: hourly, daily, fixed price, or
+            non-billable.'
+          example:
+          - 123
+        projected_revenue:
+          title: Projected Revenue
+          description: Expected revenue including future scheduled work.
+          example:
+            eq: value
+        company:
+          title: Company
+          description: The company (client) linked to the deal this service is on.
+          example:
+            eq: value
+        projected_revenue_default:
+          title: Projected Revenue Default
+          description: Expected revenue including future scheduled work in the organization's
+            default currency.
+          example:
+            eq: value
+        budget_total:
+          title: Budget Total
+          description: Total budget for this service.
+          example:
+            gt: 0
+        currency:
+          title: Currency
+          description: Currency code for this service's financial values.
+          example:
+            eq: value
+        position:
+          type: integer
+          title: Position
+          description: Sort order within the deal's service list.
+          example:
+            eq: value
+        deal_status_id:
+          type: integer
+          title: Deal Status
+          description: The deal status of the parent deal.
+          example:
+          - 123
+        section:
+          title: Section
+          description: The section grouping this service within the deal.
+          example:
+            eq: value
+        future_cost_default:
+          title: Future Cost Default
+          description: Projected cost from future scheduled bookings in the organization's
+            default currency.
+          example:
+            eq: value
+        expense_tracking_enabled:
+          type: boolean
+          title: Expense Tracking Enabled
+          description: Whether expenses can be logged against this service.
+          example:
+            eq: value
+        stage_status_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Stage Status
+          description: The stage status ID of the parent deal.
+          example:
+          - 123
+        deal:
+          title: Deal
+          description: The deal or budget this service is part of.
+          example:
+            eq: value
+        future_revenue_default:
+          title: Future Revenue Default
+          description: Revenue projected from future bookings in the organization's
+            default currency.
+          example:
+            eq: value
+        billable:
+          type: boolean
+          title: Billable
+          description: Whether this service is billable to the client.
+          example: true
+        unapproved_time:
+          type: integer
+          title: Unapproved Time
+          description: Total unapproved time entries in minutes.
+          example:
+            gt: 0
+        budget_total_default:
+          title: Budget Total Default
+          description: Total budget for this service in the organization's default
+            currency.
+          example:
+            gt: 0
+        unit:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Unit
+          description: The tracking unit (hours, days, or pieces) for this service.
+          example:
+            eq: value
+        budget_used_default:
+          title: Budget Used Default
+          description: Budget consumed so far in the organization's default currency.
+          example:
+            gt: 0
+        rolled_over_time:
+          type: integer
+          title: Rolled Over Time
+          description: Time rolled over from a previous retainer period.
+          example:
+            gt: 0
+        budget_remaining:
+          type: integer
+          title: Budget Remaining
+          description: Budget amount remaining unused.
+          example:
+            gt: 0
+        bookable_after:
+          type: string
+          title: Bookable After
+          format: date
+          description: Start date from which resource bookings are allowed.
+          example:
+            eq: value
+        editor_config:
+          type: object
+          title: Editor Config
+          description: Rich text editor configuration.
+          example:
+            eq: value
+        template:
+          type: boolean
+          title: Template
+          description: Whether this service is a template.
+          example:
+            eq: value
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier of the service.
+          example:
+          - 123
+        markup:
+          type: number
+          title: Markup
+          description: Markup amount added to the service price.
+          example:
+            eq: value
+        work_cost_normalized:
+          title: Work Cost Normalized
+          description: Labor cost from tracked time in the organization's normalized
+            currency.
+          example:
+            eq: value
+        name:
+          type: string
+          title: Name
+          description: Name of the service.
+          example:
+            eq: value
+        estimated_time:
+          type: integer
+          title: Estimated Time
+          description: Estimated hours for this service.
+          example:
+            gt: 0
+        markup_amount:
+          title: Markup Amount
+          description: Total markup in monetary terms.
+          example:
+            gt: 0
+        price_default:
+          title: Price Default
+          description: Unit price for this service in the organization's default currency.
+          example:
+            gt: 0
+        explicit_access:
+          type: boolean
+          title: Explicit Access
+          description: When true, filters services to those the current user has been
+            explicitly granted access to.
+          example:
+            eq: value
+        profit:
+          type: integer
+          title: Profit
+          description: 'Service profit: revenue minus costs.'
+          example:
+            eq: value
+        budget:
+          title: Budget
+          description: The deal budget this service is part of.
+          example:
+            gt: 0
+        cost_default:
+          title: Cost Default
+          description: Total cost including labor and expenses in the organization's
+            default currency.
+          example:
+            eq: value
+        billable_time:
+          type: integer
+          title: Billable Time
+          description: Billable hours tracked on the service.
+          example:
+            gt: 0
+        budget_id:
+          type: integer
+          title: Budget
+          description: The ID of the budget this service belongs to.
+          example:
+          - 123
+        estimated_cost_normalized:
+          title: Estimated Cost Normalized
+          description: Estimated cost based on estimated time and cost rates in the
+            organization's normalized currency.
+          example:
+            gt: 0
+        service_type:
+          title: Service Type
+          description: The work category this service belongs to.
+          example:
+            eq: active
+        expense_billable_amount_normalized:
+          title: Expense Billable Amount Normalized
+          description: Billable portion of expenses in the organization's normalized
+            currency.
+          example:
+            gt: 0
+        deal_id:
+          type: integer
+          title: Deal
+          description: The deal or budget this service is part of.
+          example:
+          - 123
+        budgeted_time:
+          type: integer
+          title: Budgeted Time
+          description: Budgeted hours allocated for this service.
+          example:
+            gt: 0
+        booked_time:
+          type: integer
+          title: Booked Time
+          description: Total scheduled (booked) time for this service.
+          example:
+            gt: 0
+        markup_amount_default:
+          title: Markup Amount Default
+          description: Total markup in monetary terms in the organization's default
+            currency.
+          example:
+            gt: 0
+        budget_used_normalized:
+          title: Budget Used Normalized
+          description: Budget consumed so far in the organization's normalized currency.
+          example:
+            gt: 0
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values on this service.
+          example:
+            eq: value
+        future_budget_used_normalized:
+          title: Future Budget Used Normalized
+          description: Budget that will be consumed by future bookings in the organization's
+            normalized currency.
+          example:
+            gt: 0
+        contract_id:
+          type: integer
+          title: Contract
+          description: The recurring contract this service originated from.
+          example:
+          - 123
+        expense_billable_amount_default:
+          title: Expense Billable Amount Default
+          description: Billable portion of expenses in the organization's default
+            currency.
+          example:
+            gt: 0
+        discount:
+          type: number
+          title: Discount
+          description: Discount amount subtracted from the service price.
+          example:
+            gt: 0
+        expense_amount_default:
+          title: Expense Amount Default
+          description: Total expense amount on this service in the organization's
+            default currency.
+          example:
+            gt: 0
+        expense_billable_amount:
+          title: Expense Billable Amount
+          description: Billable portion of expenses.
+          example:
+            gt: 0
+        project_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Type of the project (billable or overhead).
+          example:
+            eq: active
+        future_booked_time:
+          type: integer
+          title: Future Booked Time
+          description: Future scheduled time remaining.
+          example:
+            gt: 0
+        stage_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Stage Type
+          description: The stage type of the parent deal.
+          example:
+            eq: active
+        left_to_schedule_time:
+          type: integer
+          title: Left To Schedule Time
+          description: Time remaining to be scheduled on this service.
+          example:
+            gt: 0
+        remaining_scheduled_time:
+          type: integer
+          title: Remaining Scheduled Time
+          description: Time remaining to be scheduled on this service.
+          example:
+            gt: 0
+        with_memberships:
+          type: boolean
+          title: With Memberships
+          description: Whether this service has membership restrictions.
+          example:
+            eq: value
+        time_tracking_enabled:
+          type: boolean
+          title: Time Tracking Enabled
+          description: Whether team members can track time against this service.
+          example:
+            gt: 0
+        revamped_unit:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Revamped Unit
+          description: Whether this service uses the revamped unit system.
+          example:
+            eq: value
+        initial_service_id:
+          type: integer
+          title: Initial Service
+          description: ID of the first service in a rollover chain.
+          example:
+          - 123
+        work_cost:
+          title: Work Cost
+          description: Labor cost from tracked time.
+          example:
+            eq: value
+        currency_normalized:
+          title: Currency Normalized
+          description: Currency code in the organization's normalized currency.
+          example:
+            eq: value
+        before:
+          type: string
+          title: Before
+          format: date
+          description: Latest bookable date for this service.
+          example:
+            eq: value
+        billing_type:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Billing Type
+          description: Billing type display name.
+          example:
+            eq: active
+        estimated_cost_default:
+          title: Estimated Cost Default
+          description: Estimated cost based on estimated time and cost rates in the
+            organization's default currency.
+          example:
+            gt: 0
+        type:
+          type: integer
+          title: Type
+          description: JSON:API resource type identifier.
+          example:
+            eq: active
+        origin_deal_id:
+          type: integer
+          title: Origin Deal
+          description: The ID of the original deal before rollover.
+          example:
+          - 123
+        query:
+          type: string
+          title: Query
+          description: Full-text search query to filter services by name or description.
+          example:
+            eq: value
+        budget_date:
+          type: string
+          title: Budget Date
+          format: date
+          description: The date of the budget period this service belongs to.
+          example:
+            gt: '2026-01-01'
+        markup_amount_normalized:
+          title: Markup Amount Normalized
+          description: Total markup in monetary terms in the organization's normalized
+            currency.
+          example:
+            gt: 0
+        profit_margin:
+          type: number
+          title: Profit Margin
+          description: Profit as a percentage of revenue.
+          example:
+            eq: value
+        subsidiary_id:
+          type: integer
+          title: Subsidiary
+          description: The subsidiary associated with the parent deal.
+          example:
+          - 123
+        budgets_and_deals:
+          type: boolean
+          title: Budgets And Deals
+          description: List of related deals and budgets for this service.
+          example:
+            gt: 0
+        revenue:
+          title: Revenue
+          description: Total revenue from this service.
+          example:
+            eq: value
+        projectless_budgets:
+          type: boolean
+          title: Projectless Budgets
+          description: Whether this service belongs to a budget without a linked project.
+          example:
+            gt: 0
+        trackable_by_person_id:
+          type: integer
+          title: Trackable By Person
+          description: Whether this service is trackable by a specific person.
+          example:
+          - 123
+        future_budget_used_default:
+          title: Future Budget Used Default
+          description: Budget that will be consumed by future bookings in the organization's
+            default currency.
+          example:
+            gt: 0
+        discount_amount_normalized:
+          title: Discount Amount Normalized
+          description: Total discount in monetary terms in the organization's normalized
+            currency.
+          example:
+            gt: 0
+        person:
+          title: Person
+          description: The person assigned to this service (for person-scoped services).
+          example:
+            eq: value
+        future_revenue_normalized:
+          title: Future Revenue Normalized
+          description: Revenue projected from future bookings in the organization's
+            normalized currency.
+          example:
+            eq: value
+        pipeline_id:
+          type: integer
+          title: Pipeline
+          description: The pipeline the parent deal belongs to.
+          example:
+          - 123
+        custom_field_people:
+          title: Custom Field People
+          description: People in person-type custom fields.
+          example:
+            eq: value
+        responsible_id:
+          type: integer
+          title: Responsible
+          description: The person responsible for this service.
+          example:
+          - 123
+        organization:
+          title: Organization
+          description: The organization this service belongs to.
+          example:
+            eq: value
+      description: A line item on a deal or budget that defines billing type, rate,
+        and tracking rules. Services connect time tracking, resource scheduling, and
+        invoicing for a specific scope of work.
+      example:
+        id: '1856422'
+        type: services
+        attributes:
+          name: Frontend Development
+          position: 1
+          deleted_at: null
+          description: Building React components and user interfaces
+          time_tracking_enabled: true
+          expense_tracking_enabled: false
+          booking_tracking_enabled: true
+          origin_service_id: null
+          initial_service_id: 1856422
+          editor_config: {}
+          custom_fields: null
+          billing_type_id: 1
+          limitation_type: no_limitation
+          worked_time: 4800
+          billable_time: 4800
+          estimated_time: 8000
+          budgeted_time: 8000
+          currency: USD
+        relationships:
+          service_type:
+            data:
+              type: service_types
+              id: '5'
+          deal:
+            data:
+              type: deals
+              id: '89'
+          person:
+            data: null
+          section:
+            data: null
+    resource_time_entry:
+      type: object
+      title: Time entry Resource
+      properties:
+        project_manager_id:
+          type: integer
+          title: Project Manager
+          description: ID of the project manager.
+          example:
+          - 123
+        budget_id:
+          type: integer
+          title: Budget
+          description: ID of the deal/budget this time was tracked on.
+          example:
+          - 123
+        parent_company_id:
+          type: integer
+          title: Parent Company
+          description: Filter time entries by the parent company of the client linked
+            to their budget.
+          example:
+          - 123
+        responsible_id:
+          type: integer
+          title: Responsible
+          description: ID of the responsible person.
+          example:
+          - 123
+        intercompany_hours:
+          type: boolean
+          title: Intercompany Hours
+          description: True when the person's subsidiary differs from the deal subsidiary.
+          example:
+            eq: value
+        cost_normalized:
+          title: Cost Normalized
+          description: Total cost in the normalized reporting currency.
+          example:
+            eq: value
+        billing_type_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Billing Type
+          description: Billing type of the associated service.
+          example:
+          - 123
+        currency:
+          type: string
+          title: Currency
+          description: Currency code for financial values on this time entry.
+          example:
+            eq: value
+        time:
+          type: integer
+          title: Time
+          description: Duration of work in minutes.
+          example:
+            gt: 0
+        booking_id:
+          type: integer
+          title: Booking
+          description: ID of the booking this time entry was created from.
+          example:
+          - 123
+        person_id:
+          type: integer
+          title: Person
+          description: ID of the person who tracked time.
+          example:
+          - 123
+        deal_subsidiary_id:
+          type: integer
+          title: Deal Subsidiary
+          description: ID of the subsidiary of the deal.
+          example:
+          - 123
+        facility_overhead_cost:
+          title: Facility Overhead Cost
+          description: Facility overhead portion of the cost.
+          example:
+            eq: value
+        company_id:
+          type: integer
+          title: Company
+          description: ID of the client company associated with the deal.
+          example:
+          - 123
+        approved:
+          title: Approved
+          description: Whether this time entry has been approved.
+          example:
+            eq: value
+        before:
+          type: string
+          title: Before
+          format: date
+          description: before of the time entry.
+          example:
+            eq: value
+        task_list_id:
+          type: integer
+          title: Task List
+          description: ID of the task list the task belongs to.
+          example:
+          - 123
+        last_actor_id:
+          type: integer
+          title: Last Actor
+          description: last actor id of the time entry.
+          example:
+          - 123
+        jira_issue_id:
+          type: string
+          title: Jira Issue
+          description: Jira Issue ID if tracked from a Jira integration.
+          example:
+          - 123
+        started_after:
+          type: string
+          title: Started After
+          format: date
+          description: Filter alias — only entries started after this value.
+          example:
+            eq: value
+        deal_subsidiary:
+          title: Deal Subsidiary
+          description: The subsidiary of the budget/deal this time was tracked on.
+          example:
+            eq: value
+        ended_at:
+          type: string
+          title: Ended At
+          format: date
+          description: Computed end timestamp (started_at + time minutes).
+          example:
+            gt: '2026-01-01'
+        approval_statuses:
+          title: Approval Statuses
+          description: Per-approver decisions on this time entry.
+          example:
+            eq: active
+        awaiting_approval_from_approver_id:
+          type: integer
+          title: Awaiting Approval From Approver
+          description: awaiting approval from approver id of the time entry.
+          example:
+          - 123
+        person_tags:
+          type: string
+          title: Person Tags
+          description: Tags of the person who tracked time.
+          example:
+            eq: value
+        approved_at:
+          type: string
+          title: Approved At
+          format: date-time
+          description: Timestamp when the time entry was approved.
+          example:
+            gt: '2026-01-01'
+        task:
+          title: Task
+          description: The task the person was working on.
+          example:
+            eq: value
+        invoice_attribution:
+          title: Invoice Attribution
+          description: The invoice attribution linking this entry to an invoice.
+          example:
+            gt: '2026-01-01'
+        person_name:
+          title: Person Name
+          description: Name of the person who tracked time.
+          example:
+            eq: value
+        service_id:
+          type: integer
+          title: Service
+          description: ID of the service the time was tracked against.
+          example:
+          - 123
+        submitted:
+          title: Submitted
+          description: Whether this time entry has been submitted for approval via
+            a timesheet.
+          example:
+            eq: value
+        internal_overhead_cost_default:
+          title: Internal Overhead Cost Default
+          description: Internal overhead cost in the organization's default currency.
+          example:
+            eq: value
+        autotracked:
+          type: boolean
+          title: Autotracked
+          description: autotracked of the time entry.
+          example:
+            eq: value
+        jira_issue_summary:
+          type: string
+          title: Jira Issue Summary
+          description: Summary text of the linked Jira issue.
+          example:
+            eq: value
+        calendar_event_id:
+          type: string
+          title: Calendar Event
+          description: ID of the calendar event this entry was created from, if applicable.
+          example:
+          - 123
+        service_type_id:
+          type: integer
+          title: Service Type
+          description: Service type ID of the associated service.
+          example:
+          - 123
+        track_method_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          type: integer
+          title: Track Method
+          description: 'How the time was recorded: manually, via timer, or mixed.'
+          example:
+          - 123
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier of the time entry.
+          example:
+          - 123
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Date on which the time entry was created.
+          example:
+            gt: '2026-01-01'
+        service:
+          title: Service
+          description: The budget service this time was tracked against.
+          example:
+            eq: value
+        internal_overhead_cost:
+          title: Internal Overhead Cost
+          description: Internal overhead portion of the cost.
+          example:
+            eq: value
+        timer_stopped_at:
+          type: string
+          title: Timer Stopped At
+          format: date-time
+          description: When the timer was stopped.
+          example:
+            gt: '2026-01-01'
+        service_name:
+          title: Service Name
+          description: Name of the service the time was tracked against.
+          example:
+            eq: value
+        created_after:
+          type: string
+          title: Created After
+          format: date
+          description: Filter alias — only entries created after this value.
+          example:
+            eq: value
+        facility_overhead_cost_default:
+          title: Facility Overhead Cost Default
+          description: Facility overhead cost in the organization's default currency.
+          example:
+            eq: value
+        unit_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Unit
+          description: Tracking unit ID of the associated service.
+          example:
+          - 123
+        people_custom_fields:
+          type: string
+          title: People Custom Fields
+          description: Custom field values for the person who tracked time.
+          example:
+            eq: value
+        use_salary_currency:
+          type: boolean
+          title: Use Salary Currency
+          description: Whether to compute costs using the person's salary currency
+            instead of the deal currency.
+          example:
+            eq: value
+        timer_started_at:
+          type: string
+          title: Timer Started At
+          format: date-time
+          description: When the timer was started (if tracked via timer).
+          example:
+            gt: '2026-01-01'
+        rejecter:
+          title: Rejecter
+          description: The person who rejected this time entry.
+          example:
+            eq: value
+        billable:
+          type: boolean
+          title: Billable
+          description: Whether the associated service is billable.
+          example: true
+        note:
+          type: string
+          title: Note
+          description: Description of what the person was working on.
+          example:
+            eq: value
+        overhead:
+          type: boolean
+          title: Overhead
+          description: Whether this time entry is included in overhead calculations.
+          example:
+            eq: value
+        creator_id:
+          type: integer
+          title: Creator
+          description: creator id of the time entry.
+          example:
+          - 123
+        invoice_attribution_id:
+          type: integer
+          title: Invoice Attribution
+          description: ID of the invoice attribution linking this entry to an invoice.
+          example:
+          - 123
+        rejected_at:
+          type: string
+          title: Rejected At
+          format: date-time
+          description: Timestamp when the time entry was rejected.
+          example:
+            gt: '2026-01-01'
+        deal_id:
+          type: integer
+          title: Deal
+          description: ID of the deal/budget this time was tracked on.
+          example:
+          - 123
+        work_cost:
+          title: Work Cost
+          description: Labor cost based on the person's salary rate.
+          example:
+            eq: value
+        base_cost:
+          title: Base Cost
+          description: Base labor cost before overhead (serialized from work_cost).
+          example:
+            eq: value
+        deal_name:
+          title: Deal Name
+          description: Name of the deal/budget this time was tracked on.
+          example:
+            eq: value
+        cost:
+          title: Cost
+          description: Total cost of tracked time, including labor and overhead costs.
+          example:
+            eq: value
+        started_at:
+          type: string
+          title: Started At
+          format: date-time
+          description: Start date and time of the time entry.
+          example:
+            gt: '2026-01-01'
+        person:
+          title: Person
+          description: The person who tracked this time.
+          example:
+            eq: value
+        started_before:
+          type: string
+          title: Started Before
+          format: date
+          description: Filter alias — only entries started before this value.
+          example:
+            eq: value
+        after:
+          type: string
+          title: After
+          format: date
+          description: after of the time entry.
+          example:
+            eq: value
+        invoice_id:
+          type: integer
+          title: Invoice
+          description: ID of the invoice associated via attribution.
+          example:
+          - 123
+        last_actor:
+          title: Last Actor
+          description: The last person who made changes to this entry.
+          example:
+            eq: value
+        billable_time:
+          type: integer
+          title: Billable Time
+          description: Hours billable to clients (time + correction for billable services,
+            zero for non-billable).
+          example:
+            gt: 0
+        person_subsidiary:
+          title: Person Subsidiary
+          description: The subsidiary of the person who tracked time.
+          example:
+            eq: value
+        updater:
+          title: Updater
+          description: The person who last updated this time entry.
+          example:
+            eq: value
+        approver:
+          title: Approver
+          description: The person who approved this time entry.
+          example:
+            eq: value
+        stage_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Stage Type
+          description: Stage type of the associated deal.
+          example:
+            eq: active
+        invoiced:
+          type: boolean
+          title: Invoiced
+          description: Whether this time entry has been invoiced to the client.
+          example:
+            eq: value
+        project_type_id:
+          type: integer
+          title: Project Type
+          description: Project type ID.
+          example:
+          - 123
+        cost_default:
+          title: Cost Default
+          description: Total cost in the organization's default currency.
+          example:
+            eq: value
+        person_subsidiary_id:
+          type: integer
+          title: Person Subsidiary
+          description: ID of the subsidiary of the person who tracked time.
+          example:
+          - 123
+        role_id:
+          type: integer
+          title: Role
+          description: Role ID of the person who tracked time.
+          example:
+          - 123
+        currency_normalized:
+          title: Currency Normalized
+          description: Currency code in the normalized reporting currency.
+          example:
+            eq: value
+        budget_type_id:
+          type: integer
+          title: Budget Type
+          description: Budget type ID of the associated deal.
+          example:
+          - 123
+        jira_worklog_id:
+          type: string
+          title: Jira Worklog
+          description: Jira Worklog ID for synced entries.
+          example:
+          - 123
+        facility_overhead_cost_normalized:
+          title: Facility Overhead Cost Normalized
+          description: Facility overhead cost in the normalized reporting currency.
+          example:
+            eq: value
+        designated_approver_id:
+          type: integer
+          title: Designated Approver
+          description: Filter time entries to those whose budget has the specified
+            designated approver.
+          example:
+          - 123
+        approver_id:
+          type: integer
+          title: Approver
+          description: approver id of the time entry.
+          example:
+          - 123
+        rejected:
+          title: Rejected
+          description: Whether this time entry was rejected during approval.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Date when the last change was made (edit, approval, move, etc.).
+          example:
+            gt: '2026-01-01'
+        overhead_cost_normalized:
+          title: Overhead Cost Normalized
+          description: Total overhead cost in the normalized reporting currency.
+          example:
+            eq: value
+        query:
+          type: string
+          title: Query
+          description: Full-text search query across time entry fields.
+          example:
+            eq: value
+        jira_organization:
+          type: string
+          title: Jira Organization
+          description: Jira organization name for the linked issue.
+          example:
+            eq: value
+        internal_overhead_cost_normalized:
+          title: Internal Overhead Cost Normalized
+          description: Internal overhead cost in the normalized reporting currency.
+          example:
+            eq: value
+        created_before:
+          type: string
+          title: Created Before
+          format: date
+          description: Filter alias — only entries created before this value.
+          example:
+            eq: value
+        overhead_cost:
+          title: Overhead Cost
+          description: Total overhead cost (internal + facility) of tracked time.
+          example:
+            eq: value
+        work_cost_normalized:
+          title: Work Cost Normalized
+          description: Labor cost in the normalized reporting currency.
+          example:
+            eq: value
+        creator:
+          title: Creator
+          description: The person who created this time entry.
+          example:
+            eq: value
+        updated_at:
+          type: string
+          title: Updated At
+          format: date-time
+          description: Timestamp of last modification.
+          example:
+            gt: '2026-01-01'
+        invoicing_status:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Invoicing Status
+          description: Current invoicing status of the time entry.
+          example:
+            eq: active
+        overhead_cost_default:
+          title: Overhead Cost Default
+          description: Total overhead cost in the organization's default currency.
+          example:
+            eq: value
+        work_cost_default:
+          title: Work Cost Default
+          description: Labor cost in the organization's default currency.
+          example:
+            eq: value
+        timesheet:
+          title: Timesheet
+          description: The daily timesheet this entry belongs to (unit of approval
+            submission).
+          example:
+            gt: 0
+        assigned_approver_id:
+          type: integer
+          title: Assigned Approver
+          description: assigned approver id of the time entry.
+          example:
+          - 123
+        organization:
+          title: Organization
+          description: The organization this time entry belongs to.
+          example:
+            eq: value
+        section_name:
+          type: string
+          title: Section Name
+          description: Name of the section the service belongs to.
+          example:
+            eq: value
+        currency_default:
+          title: Currency Default
+          description: Currency code in the organization's default currency.
+          example:
+            eq: value
+        date:
+          type: string
+          title: Date
+          format: date
+          description: Date for which the time was tracked.
+          example:
+            gt: '2026-01-01'
+        task_id:
+          type: integer
+          title: Task
+          description: ID of the task the person was working on.
+          example:
+          - 123
+        recognized_time:
+          type: integer
+          title: Recognized Time
+          description: Recognized time used in budget spending and accrual-based revenue
+            calculations.
+          example:
+            gt: 0
+        jira_issue_status:
+          type: string
+          title: Jira Issue Status
+          description: Current status of the linked Jira issue.
+          example:
+            eq: active
+        rejected_reason:
+          type: string
+          title: Rejected Reason
+          description: Reason provided when the time entry was rejected.
+          example:
+            eq: value
+        project_id:
+          type: integer
+          title: Project
+          description: ID of the project associated with the service.
+          example:
+          - 123
+        approval_policy_id:
+          type: integer
+          title: Approval Policy
+          description: approval policy id of the time entry.
+          example:
+          - 123
+        status:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          type: integer
+          title: Status
+          description: Approval status of the time entry.
+          example:
+            eq: active
+      description: A time entry records the time a person has logged against a service
+        on a deal or project, capturing the date, duration, and optionally a note
+        describing the work done.
+      example:
+        id: '84848214'
+        type: time_entries
+        attributes:
+          date: '2026-03-15'
+          created_at: '2026-03-15T09:30:00.000+00:00'
+          time: 480
+          note: Implemented user authentication flow
+          track_method_id: 1
+          started_at: '2026-03-15T09:00:00.000+00:00'
+          timer_started_at: null
+          timer_stopped_at: null
+          approved: false
+          approved_at: null
+          updated_at: '2026-03-15T17:30:00.000+00:00'
+          calendar_event_id: null
+          invoice_attribution_id: null
+          invoiced: false
+          overhead: false
+          rejected: false
+          rejected_reason: null
+          rejected_at: null
+          last_activity_at: '2026-03-15T09:30:00.000+00:00'
+          submitted: false
+          currency: USD
+        relationships:
+          person:
+            data:
+              type: people
+              id: '12'
+          service:
+            data:
+              type: services
+              id: '1856422'
+          task:
+            data:
+              type: tasks
+              id: '120501'
+          approver:
+            data: null
+    _meta:
+      type: object
+      title: Meta
+      properties:
+        total_count:
+          type: integer
+          description: Total number of records matching the current query across all
+            pages.
+          example: 42
+        settings:
+          type: object
+          description: Organization or user settings relevant to this resource's display.
+          example:
+            feature_x: true
+            notifications:
+              email: true
+        organization_features:
+          type: object
+          description: Feature flags and capabilities enabled for the current organization,
+            used for UI rendering.
+          example: []
+        current_page:
+          type: integer
+          description: The current page number in this paginated response (1-based).
+          example: 1
+        page_size:
+          type: integer
+          description: Number of records returned per page in this response.
+          example: 30
+        max_page_size:
+          type: integer
+          description: Maximum number of records allowed per page for this endpoint.
+          example: 200
+        total_pages:
+          type: integer
+          description: Total number of pages available for the current query and page
+            size.
+          example: 5
+      description: Pagination and response metadata returned with every collection
+        endpoint.
+      example:
+        current_page: 1
+        total_pages: 5
+        total_count: 42
+        page_size: 30
+        max_page_size: 200
