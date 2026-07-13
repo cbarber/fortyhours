@@ -66,14 +66,14 @@ func newBookingsListCommand() *cobra.Command {
 				if err != nil {
 					return err
 				}
-				filter.Op("started_on", "gte", dates.Format(d))
+				filter.Op("started_on", "gt_eq", dates.Format(d))
 			}
 			if to != "" {
 				d, err := dates.Parse(to)
 				if err != nil {
 					return err
 				}
-				filter.Op("ended_on", "lte", dates.Format(d))
+				filter.Op("ended_on", "lt_eq", dates.Format(d))
 			}
 
 			bookings, err := app.Client.ListBookings(ctx, filter)

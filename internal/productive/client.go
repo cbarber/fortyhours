@@ -119,7 +119,9 @@ func (f *Filter) Eq(field, value string) *Filter {
 	return f
 }
 
-// Op adds an operator filter, e.g. filter[date][gte]=2024-01-01.
+// Op adds an operator filter, e.g. filter[date][gt_eq]=2024-01-01. Allowed
+// operations (per Productive's API) are eq, not_eq, contains, not_contain,
+// gt, gt_eq, lt, lt_eq.
 func (f *Filter) Op(field, op, value string) *Filter {
 	f.values.Set(fmt.Sprintf("filter[%s][%s]", field, op), value)
 	return f

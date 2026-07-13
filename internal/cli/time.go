@@ -58,14 +58,14 @@ func newTimeListCommand() *cobra.Command {
 				if err != nil {
 					return err
 				}
-				filter.Op("date", "gte", dates.Format(d))
+				filter.Op("date", "gt_eq", dates.Format(d))
 			}
 			if to != "" {
 				d, err := dates.Parse(to)
 				if err != nil {
 					return err
 				}
-				filter.Op("date", "lte", dates.Format(d))
+				filter.Op("date", "lt_eq", dates.Format(d))
 			}
 			if projectName != "" {
 				project, err := resolveProject(ctx, app.Client, projectName)

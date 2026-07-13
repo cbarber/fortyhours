@@ -126,8 +126,8 @@ func attributesWithoutID(rec map[string]any) map[string]any {
 }
 
 // filterRecords applies the person_id/date-ish filters the CLI actually
-// sends: filter[person_id], filter[<dateField>][gte|lte], and (for
-// bookings) filter[started_on][lte]/filter[ended_on][gte].
+// sends: filter[person_id], filter[<dateField>][gt_eq|lt_eq], and (for
+// bookings) filter[started_on][lt_eq]/filter[ended_on][gt_eq].
 func filterRecords(table map[string]map[string]any, r *http.Request, primaryDateField string) []map[string]any {
 	q := r.URL.Query()
 	var out []map[string]any
@@ -135,16 +135,16 @@ func filterRecords(table map[string]map[string]any, r *http.Request, primaryDate
 		if v := q.Get("filter[person_id]"); v != "" && fmt.Sprint(rec["person_id"]) != v {
 			continue
 		}
-		if v := q.Get(fmt.Sprintf("filter[%s][gte]", primaryDateField)); v != "" && fmt.Sprint(rec[primaryDateField]) < v {
+		if v := q.Get(fmt.Sprintf("filter[%s][gt_eq]", primaryDateField)); v != "" && fmt.Sprint(rec[primaryDateField]) < v {
 			continue
 		}
-		if v := q.Get(fmt.Sprintf("filter[%s][lte]", primaryDateField)); v != "" && fmt.Sprint(rec[primaryDateField]) > v {
+		if v := q.Get(fmt.Sprintf("filter[%s][lt_eq]", primaryDateField)); v != "" && fmt.Sprint(rec[primaryDateField]) > v {
 			continue
 		}
-		if v := q.Get("filter[ended_on][gte]"); v != "" && fmt.Sprint(rec["ended_on"]) < v {
+		if v := q.Get("filter[ended_on][gt_eq]"); v != "" && fmt.Sprint(rec["ended_on"]) < v {
 			continue
 		}
-		if v := q.Get("filter[started_on][lte]"); v != "" && fmt.Sprint(rec["started_on"]) > v {
+		if v := q.Get("filter[started_on][lt_eq]"); v != "" && fmt.Sprint(rec["started_on"]) > v {
 			continue
 		}
 		out = append(out, rec)

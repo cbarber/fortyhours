@@ -122,8 +122,8 @@ func planSummary(plan []config.AutofillProject) string {
 func absenceBookingsInRange(ctx context.Context, app *App, start, end time.Time) ([]productive.Record[productive.ResourceBooking], error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("started_on", "lte", ymd(end)).
-		Op("ended_on", "gte", ymd(start))
+		Op("started_on", "lt_eq", ymd(end)).
+		Op("ended_on", "gt_eq", ymd(start))
 	bookings, err := app.Client.ListBookings(ctx, filter)
 	if err != nil {
 		return nil, fmt.Errorf("checking for existing absence bookings: %w", err)
@@ -161,8 +161,8 @@ func coversDate(bookings []productive.Record[productive.ResourceBooking], day ti
 func datesWithTimeEntries(ctx context.Context, app *App, start, end time.Time) (map[string]bool, error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("date", "gte", ymd(start)).
-		Op("date", "lte", ymd(end))
+		Op("date", "gt_eq", ymd(start)).
+		Op("date", "lt_eq", ymd(end))
 	entries, err := app.Client.ListTimeEntries(ctx, filter)
 	if err != nil {
 		return nil, fmt.Errorf("checking for existing time entries: %w", err)

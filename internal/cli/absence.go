@@ -17,8 +17,8 @@ import (
 func deleteTimeEntriesInRange(ctx context.Context, app *App, start, end time.Time) (int, error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("date", "gte", ymd(start)).
-		Op("date", "lte", ymd(end))
+		Op("date", "gt_eq", ymd(start)).
+		Op("date", "lt_eq", ymd(end))
 
 	entries, err := app.Client.ListTimeEntries(ctx, filter)
 	if err != nil {

@@ -181,11 +181,11 @@ func TestFilterBuildsJSONAPIQuery(t *testing.T) {
 		w.Write([]byte(`{"data":[]}`))
 	})
 
-	f := NewFilter().Eq("person_id", "7").Op("date", "gte", "2024-01-01")
+	f := NewFilter().Eq("person_id", "7").Op("date", "gt_eq", "2024-01-01")
 	if _, err := c.ListTimeEntries(context.Background(), f); err != nil {
 		t.Fatalf("ListTimeEntries: %v", err)
 	}
-	if got := gotQuery; !contains(got, "filter%5Bperson_id%5D=7") || !contains(got, "filter%5Bdate%5D%5Bgte%5D=2024-01-01") {
+	if got := gotQuery; !contains(got, "filter%5Bperson_id%5D=7") || !contains(got, "filter%5Bdate%5D%5Bgt_eq%5D=2024-01-01") {
 		t.Errorf("query = %q, missing expected filter params", got)
 	}
 }
