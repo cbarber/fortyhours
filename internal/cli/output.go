@@ -51,11 +51,3 @@ func intStr(p *int) string {
 	}
 	return strconv.Itoa(*p)
 }
-
-// boolStr renders a *bool as a string, or "" for nil.
-func boolStr(p *bool) string {
-	if p == nil {
-		return ""
-	}
-	return strconv.FormatBool(*p)
-}
