@@ -153,7 +153,7 @@ func newTimeCreateCommand() *cobra.Command {
 	cmd.Flags().StringVar(&date, "date", "today", "date to log time for (YYYY-MM-DD, today, tomorrow, yesterday)")
 	cmd.Flags().Float64Var(&hours, "hours", 0, "hours worked (required)")
 	cmd.Flags().StringVar(&note, "note", "", "note for the time entry")
-	cmd.MarkFlagRequired("hours")
+	_ = cmd.MarkFlagRequired("hours")
 	return cmd
 }
 

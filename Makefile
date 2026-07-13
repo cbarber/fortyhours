@@ -17,6 +17,7 @@ test:
 lint:
 	go vet ./...
 	gofmt -l .
+	golangci-lint run ./...
 
 .PHONY: generate
 generate:

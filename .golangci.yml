@@ -1,0 +1,17 @@
+version: "2"
+
+linters:
+  settings:
+    errcheck:
+      # Ignoring the error from writing CLI output (or closing a response
+      # body we've already fully read) is standard practice: there's
+      # nothing more useful to do with it than the io error path handling
+      # we already have elsewhere.
+      exclude-functions:
+        - (*text/tabwriter.Writer).Flush
+        - fmt.Fprint
+        - fmt.Fprintf
+        - fmt.Fprintln
+        - (io.Closer).Close
+        - (*encoding/json.Encoder).Encode
+        - (net/http.ResponseWriter).Write
