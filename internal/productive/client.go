@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 )
 
@@ -21,6 +22,12 @@ type Client struct {
 	APIToken   string
 	OrgID      string
 	HTTPClient *http.Client
+
+	// Debug, when true, writes each request's method/URL/body and each
+	// response's status/body to DebugWriter (os.Stderr if nil). The
+	// X-Auth-Token header value is never printed.
+	Debug       bool
+	DebugWriter io.Writer
 }
 
 // NewClient builds a Client authenticated with the given API token and
@@ -32,6 +39,13 @@ func NewClient(apiToken, orgID string) *Client {
 		OrgID:      orgID,
 		HTTPClient: http.DefaultClient,
 	}
+}
+
+func (c *Client) debugWriter() io.Writer {
+	if c.DebugWriter != nil {
+		return c.DebugWriter
+	}
+	return os.Stderr
 }
 
 // Identifier is a JSON:API resource identifier (the "type"/"id" pair used in
@@ -142,6 +156,15 @@ func (c *Client) do(ctx context.Context, method, path string, query url.Values, 
 	req.Header.Set("Content-Type", "application/vnd.api+json")
 	req.Header.Set("Accept", "application/vnd.api+json")
 
+	if c.Debug {
+		reqBodyStr := ""
+		if body != nil {
+			b, _ := json.Marshal(body)
+			reqBodyStr = string(b)
+		}
+		fmt.Fprintf(c.debugWriter(), "--> %s %s\n    X-Organization-Id: %s\n    body: %s\n", method, u, c.OrgID, reqBodyStr)
+	}
+
 	resp, err := c.HTTPClient.Do(req)
 	if err != nil {
 		return fmt.Errorf("productive: %s %s: %w", method, path, err)
@@ -151,6 +174,10 @@ func (c *Client) do(ctx context.Context, method, path string, query url.Values, 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("productive: reading response: %w", err)
+	}
+
+	if c.Debug {
+		fmt.Fprintf(c.debugWriter(), "<-- %d %s\n    body: %s\n", resp.StatusCode, u, respBody)
 	}
 
 	if resp.StatusCode >= 400 {

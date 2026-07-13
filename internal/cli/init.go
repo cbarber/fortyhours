@@ -29,7 +29,7 @@ by default. Flags allow running it non-interactively.`,
 			if cfg.APIToken == "" || cfg.OrgID == "" {
 				return fmt.Errorf("set %s and %s before running init", config.EnvAPIToken, config.EnvOrgID)
 			}
-			client := productive.NewClient(cfg.APIToken, cfg.OrgID)
+			client := newProductiveClient(cmd, cfg.APIToken, cfg.OrgID)
 			ctx := cmd.Context()
 			in := bufio.NewReader(cmd.InOrStdin())
 			out := cmd.OutOrStdout()

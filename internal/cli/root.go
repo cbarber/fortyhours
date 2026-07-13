@@ -18,6 +18,7 @@ func NewRootCommand() *cobra.Command {
 		SilenceErrors: false,
 	}
 	root.PersistentFlags().Bool("json", false, "output machine-readable JSON instead of a table")
+	root.PersistentFlags().Bool("debug", false, "print Productive API request/response details to stderr (or set FORTYHOURS_DEBUG=1)")
 
 	root.AddCommand(
 		newInitCommand(),

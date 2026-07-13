@@ -1,10 +1,12 @@
 package productive
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
@@ -144,6 +146,31 @@ func TestAPIErrorSurfacesJSONAPIError(t *testing.T) {
 	}
 	if len(apiErr.Errors) != 1 || apiErr.Errors[0].Code != "invalid_token_signature" {
 		t.Errorf("unexpected errors: %+v", apiErr.Errors)
+	}
+}
+
+func TestDebugWritesRequestAndResponseWithoutLeakingToken(t *testing.T) {
+	c := testClient(t, func(w http.ResponseWriter, r *http.Request) {
+		w.Write([]byte(`{"data":[]}`))
+	})
+	c.APIToken = "super-secret-token"
+	c.Debug = true
+	var buf bytes.Buffer
+	c.DebugWriter = &buf
+
+	if _, err := c.ListProjects(context.Background(), nil); err != nil {
+		t.Fatalf("ListProjects: %v", err)
+	}
+
+	out := buf.String()
+	if !strings.Contains(out, "GET") || !strings.Contains(out, "/projects") {
+		t.Errorf("expected request line in debug output, got: %s", out)
+	}
+	if !strings.Contains(out, "200") {
+		t.Errorf("expected response status in debug output, got: %s", out)
+	}
+	if strings.Contains(out, "super-secret-token") {
+		t.Errorf("debug output must not leak the API token, got: %s", out)
 	}
 }
 

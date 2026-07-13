@@ -68,7 +68,10 @@ fortyhours autofill 2024-04-30   # today through an explicit upper-bound date
 fortyhours autofill week --dry-run
 ```
 
-Every list/get command accepts `--json` for scripting.
+Every list/get command accepts `--json` for scripting. Every command
+accepts `--debug` (or `FORTYHOURS_DEBUG=1`) to print each Productive API
+request/response (method, URL, body, status) to stderr — useful when a
+response doesn't decode as expected; the API token is never printed.
 
 ### How autofill works
 

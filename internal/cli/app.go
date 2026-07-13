@@ -41,10 +41,7 @@ func newApp(cmd *cobra.Command) (*App, error) {
 		jsonOut = false
 	}
 
-	client := productive.NewClient(cfg.APIToken, cfg.OrgID)
-	if baseURL := os.Getenv("FORTYHOURS_BASE_URL"); baseURL != "" {
-		client.BaseURL = baseURL
-	}
+	client := newProductiveClient(cmd, cfg.APIToken, cfg.OrgID)
 
 	return &App{
 		Config: cfg,
@@ -52,4 +49,20 @@ func newApp(cmd *cobra.Command) (*App, error) {
 		Out:    cmd.OutOrStdout(),
 		JSON:   jsonOut,
 	}, nil
+}
+
+// newProductiveClient builds a Productive client honoring the --debug flag/
+// FORTYHOURS_DEBUG env var and the FORTYHOURS_BASE_URL test override.
+func newProductiveClient(cmd *cobra.Command, apiToken, orgID string) *productive.Client {
+	client := productive.NewClient(apiToken, orgID)
+	if baseURL := os.Getenv("FORTYHOURS_BASE_URL"); baseURL != "" {
+		client.BaseURL = baseURL
+	}
+	debug, _ := cmd.Flags().GetBool("debug")
+	if os.Getenv("FORTYHOURS_DEBUG") != "" {
+		debug = true
+	}
+	client.Debug = debug
+	client.DebugWriter = cmd.ErrOrStderr()
+	return client
 }
