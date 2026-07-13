@@ -546,7 +546,6 @@ components:
           example:
             eq: value
         color_id:
-          type: integer
           title: Color
           description: ID of the color associated with this event for display purposes.
           example:

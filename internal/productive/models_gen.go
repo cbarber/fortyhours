@@ -508,8 +508,8 @@ type ResourceEvent struct {
 	ArchivedAt *time.Time `json:"archived_at,omitempty"`
 
 	// ColorId ID of the color associated with this event for display purposes.
-	ColorId     *int    `json:"color_id,omitempty"`
-	Description *string `json:"description,omitempty"`
+	ColorId     *interface{} `json:"color_id,omitempty"`
+	Description *string      `json:"description,omitempty"`
 
 	// EventTypeId ID of the event type indicating whether this absence is paid (1) or unpaid (2).
 	EventTypeId *ResourceEventEventTypeId `json:"event_type_id,omitempty"`
