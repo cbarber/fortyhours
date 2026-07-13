@@ -76,3 +76,56 @@ func TestAutofillRangeRejectsPastUpperBound(t *testing.T) {
 		t.Error("expected error for an upper-bound date in the past")
 	}
 }
+
+func TestSubmitRangeKeywords(t *testing.T) {
+	start, end, err := SubmitRange("week")
+	if err != nil {
+		t.Fatalf("SubmitRange(week): %v", err)
+	}
+	if start.Weekday().String() != "Monday" {
+		t.Errorf("week start = %s, want Monday", start.Weekday())
+	}
+	if end.Weekday().String() != "Friday" {
+		t.Errorf("week end = %s, want Friday", end.Weekday())
+	}
+
+	lastStart, lastEnd, err := SubmitRange("last-week")
+	if err != nil {
+		t.Fatalf("SubmitRange(last-week): %v", err)
+	}
+	if lastStart.AddDate(0, 0, 7) != start {
+		t.Errorf("last-week start = %s, want exactly 7 days before this week's start %s", Format(lastStart), Format(start))
+	}
+	if lastEnd.Weekday().String() != "Friday" {
+		t.Errorf("last-week end = %s, want Friday", lastEnd.Weekday())
+	}
+
+	start, end, err = SubmitRange("month")
+	if err != nil {
+		t.Fatalf("SubmitRange(month): %v", err)
+	}
+	if start.Day() != 1 {
+		t.Errorf("month start day = %d, want 1", start.Day())
+	}
+	if end.AddDate(0, 0, 1).Day() != 1 {
+		t.Errorf("month end = %s is not the last day of its month", Format(end))
+	}
+
+	start, end, err = SubmitRange("day")
+	if err != nil {
+		t.Fatalf("SubmitRange(day): %v", err)
+	}
+	if !start.Equal(end) {
+		t.Errorf("day range = [%s, %s], want a single day", Format(start), Format(end))
+	}
+}
+
+func TestSubmitRangeAllowsPastDate(t *testing.T) {
+	start, end, err := SubmitRange("2000-01-01")
+	if err != nil {
+		t.Fatalf("SubmitRange(date): %v", err)
+	}
+	if Format(start) != "2000-01-01" || !start.Equal(end) {
+		t.Errorf("range = [%s, %s], want a single day 2000-01-01", Format(start), Format(end))
+	}
+}

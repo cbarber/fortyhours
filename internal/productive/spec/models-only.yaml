@@ -3267,6 +3267,70 @@ components:
               id: '120501'
           approver:
             data: null
+    resource_timesheet:
+      type: object
+      title: Timesheet Resource
+      properties:
+        organization:
+          title: Organization
+          description: The organization this timesheet belongs to.
+          example:
+            eq: value
+        creator:
+          title: Creator
+          description: The person who created this timesheet.
+          example:
+            eq: value
+        id:
+          title: Id
+          description: Unique identifier for the timesheet.
+          example:
+          - 123
+        person_id:
+          type: integer
+          title: Person
+          description: The ID of the person this timesheet belongs to.
+          example:
+          - 123
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Timestamp when the timesheet was created.
+          example:
+            gt: '2026-01-01'
+        date:
+          type: string
+          title: Date
+          format: date
+          description: The date this timesheet covers.
+          example:
+            gt: '2026-01-01'
+        person:
+          title: Person
+          description: The person this timesheet belongs to.
+          example:
+            eq: value
+        creator_id:
+          type: integer
+          title: Creator
+          description: The ID of the person who created this timesheet.
+          example:
+          - 123
+      description: A daily aggregate of a person's time entries, serving as the unit
+        of submission in the time approval workflow.
+      example:
+        id: '123'
+        type: timesheets
+        attributes:
+          week_starting: '2026-01-13'
+          status: submitted
+          total_hours: 40
+        relationships:
+          person:
+            data:
+              type: people
+              id: '12'
     _meta:
       type: object
       title: Meta

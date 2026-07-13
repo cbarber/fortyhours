@@ -91,3 +91,39 @@ func weekdayOffset(t time.Time) int {
 		return int(t.Weekday()) - int(time.Monday)
 	}
 }
+
+// SubmitRange resolves timesheets submit/unsubmit's range argument into a
+// concrete [start, end] date span:
+//
+//   - "day":        today only
+//   - "week":       Monday-Friday of the current week
+//   - "last-week":  Monday-Friday of the previous week
+//   - "month":      the 1st through the last day of the current month
+//   - any other value: parsed as a single date (that day only)
+//
+// Unlike AutofillRange, past dates are allowed: timesheets are submitted
+// for time already logged, typically after the fact.
+func SubmitRange(arg string) (start, end time.Time, err error) {
+	now := time.Now()
+	today := time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, now.Location())
+
+	switch arg {
+	case "day":
+		return today, today, nil
+	case "week":
+		monday := today.AddDate(0, 0, -weekdayOffset(today))
+		return monday, monday.AddDate(0, 0, 4), nil
+	case "last-week":
+		monday := today.AddDate(0, 0, -weekdayOffset(today)-7)
+		return monday, monday.AddDate(0, 0, 4), nil
+	case "month":
+		first := time.Date(today.Year(), today.Month(), 1, 0, 0, 0, 0, today.Location())
+		return first, first.AddDate(0, 1, -1), nil
+	default:
+		d, err := Parse(arg)
+		if err != nil {
+			return time.Time{}, time.Time{}, fmt.Errorf("invalid range %q: expected day, week, last-week, month, or a date: %w", arg, err)
+		}
+		return d, d, nil
+	}
+}

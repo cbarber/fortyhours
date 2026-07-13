@@ -29,6 +29,7 @@ func NewRootCommand() *cobra.Command {
 		newSickCommand(),
 		newPTOCommand(),
 		newAutofillCommand(),
+		newTimesheetsCommand(),
 	)
 	return root
 }

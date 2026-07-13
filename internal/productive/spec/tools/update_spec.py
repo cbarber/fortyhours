@@ -45,6 +45,8 @@ KEEP_OPS = {
     "/api/v2/bookings/{id}": ["get", "patch", "delete"],
     "/api/v2/events": ["get"],
     "/api/v2/people": ["get"],
+    "/api/v2/timesheets": ["get", "post"],
+    "/api/v2/timesheets/{id}": ["get", "delete"],
 }
 
 # Schemas fed to oapi-codegen for model generation. Everything else
@@ -56,6 +58,7 @@ MODEL_SCHEMAS = [
     "resource_project",
     "resource_service",
     "resource_time_entry",
+    "resource_timesheet",
     "_meta",
 ]
 

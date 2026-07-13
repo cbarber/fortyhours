@@ -1828,3 +1828,30 @@ type ResourceTimeEntryTrackMethodId int
 
 // ResourceTimeEntryUnitId Tracking unit ID of the associated service.
 type ResourceTimeEntryUnitId int
+
+// ResourceTimesheet A daily aggregate of a person's time entries, serving as the unit of submission in the time approval workflow.
+type ResourceTimesheet struct {
+	// CreatedAt Timestamp when the timesheet was created.
+	CreatedAt *time.Time `json:"created_at,omitempty"`
+
+	// Creator The person who created this timesheet.
+	Creator *interface{} `json:"creator,omitempty"`
+
+	// CreatorId The ID of the person who created this timesheet.
+	CreatorId *int `json:"creator_id,omitempty"`
+
+	// Date The date this timesheet covers.
+	Date *openapi_types.Date `json:"date,omitempty"`
+
+	// Id Unique identifier for the timesheet.
+	Id *interface{} `json:"id,omitempty"`
+
+	// Organization The organization this timesheet belongs to.
+	Organization *interface{} `json:"organization,omitempty"`
+
+	// Person The person this timesheet belongs to.
+	Person *interface{} `json:"person,omitempty"`
+
+	// PersonId The ID of the person this timesheet belongs to.
+	PersonId *int `json:"person_id,omitempty"`
+}

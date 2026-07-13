@@ -66,6 +66,10 @@ fortyhours autofill week
 fortyhours autofill month
 fortyhours autofill 2024-04-30   # today through an explicit upper-bound date
 fortyhours autofill week --dry-run
+
+fortyhours timesheets submit week        # lock this week's time entries for approval
+fortyhours timesheets submit last-week
+fortyhours timesheets unsubmit week      # undo, as long as nothing's been approved yet
 ```
 
 Every list/get command accepts `--json` for scripting. Every command
@@ -88,6 +92,15 @@ The intended workflow is to schedule `autofill` (cron, launchd, Task
 Scheduler) for the common case, and run `sick`/`pto`/`time create` by hand
 for exceptions — autofill will then skip whatever those commands already
 accounted for.
+
+### How timesheets submit/unsubmit work
+
+Productive's unit of time-entry approval is a per-person, per-day
+timesheet: creating one submits that day's time entries for approval.
+`timesheets submit <range>` creates one for every Monday-Friday in range,
+skipping days already submitted (safe to re-run); `unsubmit` deletes them
+back out, skipping days with none. Productive rejects deleting a timesheet
+once any of its time entries have been approved.
 
 ### Sick/PTO and existing time entries
 

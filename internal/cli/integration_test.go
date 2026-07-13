@@ -24,6 +24,7 @@ type fakeProductive struct {
 	nextID      int
 	timeEntries map[string]map[string]any
 	bookings    map[string]map[string]any
+	timesheets  map[string]map[string]any
 	events      []map[string]any
 }
 
@@ -32,6 +33,7 @@ func newFakeProductive() *fakeProductive {
 		nextID:      100,
 		timeEntries: map[string]map[string]any{},
 		bookings:    map[string]map[string]any{},
+		timesheets:  map[string]map[string]any{},
 		events: []map[string]any{
 			{"id": "1", "name": "Sick"},
 			{"id": "2", "name": "PTO"},
@@ -70,6 +72,17 @@ func (f *fakeProductive) handler() http.HandlerFunc {
 
 		case r.URL.Path == "/bookings" && r.Method == http.MethodPost:
 			f.create(w, r, f.bookings)
+
+		case r.URL.Path == "/timesheets" && r.Method == http.MethodGet:
+			f.writeCollection(w, filterRecords(f.timesheets, r, "date"))
+
+		case r.URL.Path == "/timesheets" && r.Method == http.MethodPost:
+			f.create(w, r, f.timesheets)
+
+		case strings.HasPrefix(r.URL.Path, "/timesheets/") && r.Method == http.MethodDelete:
+			id := strings.TrimPrefix(r.URL.Path, "/timesheets/")
+			delete(f.timesheets, id)
+			w.WriteHeader(http.StatusNoContent)
 
 		default:
 			w.WriteHeader(http.StatusNotFound)
@@ -240,5 +253,76 @@ func TestAutofillSkipsFilledAndAbsenceDays(t *testing.T) {
 	}
 	if created != 1 {
 		t.Errorf("expected 1 new time entry on %s, got %d (all: %v)", dates.Format(wednesday), created, fake.timeEntries)
+	}
+}
+
+func TestTimesheetsSubmitSkipsAlreadySubmittedDays(t *testing.T) {
+	monday, friday, err := dates.SubmitRange("week")
+	if err != nil {
+		t.Fatalf("SubmitRange(week): %v", err)
+	}
+
+	fake := newFakeProductive()
+	// Monday is already submitted; every other weekday should get a new
+	// timesheet.
+	fake.timesheets["90"] = map[string]any{"id": "90", "person_id": float64(1), "date": dates.Format(monday)}
+	srv := httptest.NewServer(fake.handler())
+	defer srv.Close()
+
+	out, err := runCLI(t, srv, &config.Config{}, "timesheets", "submit", "week")
+	if err != nil {
+		t.Fatalf("timesheets submit: %v\noutput: %s", err, out)
+	}
+	if !strings.Contains(out, dates.Format(monday)+": skipped (already submitted)") {
+		t.Errorf("expected Monday to be skipped as already submitted, got: %s", out)
+	}
+	if !strings.Contains(out, dates.Format(friday)+": submitted") {
+		t.Errorf("expected Friday to be submitted, got: %s", out)
+	}
+	if len(fake.timesheets) != len(dates.Weekdays(monday, friday)) {
+		t.Errorf("expected a timesheet for every weekday, got %d: %v", len(fake.timesheets), fake.timesheets)
+	}
+}
+
+func TestTimesheetsSubmitDryRunCreatesNothing(t *testing.T) {
+	fake := newFakeProductive()
+	srv := httptest.NewServer(fake.handler())
+	defer srv.Close()
+
+	out, err := runCLI(t, srv, &config.Config{}, "timesheets", "submit", "day", "--dry-run")
+	if err != nil {
+		t.Fatalf("timesheets submit --dry-run: %v\noutput: %s", err, out)
+	}
+	if !strings.Contains(out, "would submit") {
+		t.Errorf("expected a dry-run message, got: %s", out)
+	}
+	if len(fake.timesheets) != 0 {
+		t.Errorf("expected --dry-run to create nothing, got %v", fake.timesheets)
+	}
+}
+
+func TestTimesheetsUnsubmitDeletesExistingAndSkipsMissing(t *testing.T) {
+	monday, friday, err := dates.SubmitRange("week")
+	if err != nil {
+		t.Fatalf("SubmitRange(week): %v", err)
+	}
+
+	fake := newFakeProductive()
+	fake.timesheets["90"] = map[string]any{"id": "90", "person_id": float64(1), "date": dates.Format(monday)}
+	srv := httptest.NewServer(fake.handler())
+	defer srv.Close()
+
+	out, err := runCLI(t, srv, &config.Config{}, "timesheets", "unsubmit", "week")
+	if err != nil {
+		t.Fatalf("timesheets unsubmit: %v\noutput: %s", err, out)
+	}
+	if !strings.Contains(out, dates.Format(monday)+": unsubmitted") {
+		t.Errorf("expected Monday to be unsubmitted, got: %s", out)
+	}
+	if !strings.Contains(out, dates.Format(friday)+": skipped (not submitted)") {
+		t.Errorf("expected Friday to be skipped as not submitted, got: %s", out)
+	}
+	if len(fake.timesheets) != 0 {
+		t.Errorf("expected the existing timesheet to be deleted, got %v", fake.timesheets)
 	}
 }

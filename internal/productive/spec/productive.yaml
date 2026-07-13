@@ -1377,6 +1377,68 @@ paths:
       operationId: people-index
       description: List people in the organization. Supports filtering by name, email,
         type, status, team, company, manager, tags, and custom fields.
+  /api/v2/timesheets:
+    get:
+      tags:
+      - Timesheets
+      summary: Get timesheets
+      responses:
+        '200':
+          $ref: '#/components/responses/collection_timesheet'
+      operationId: timesheets-index
+      description: List all timesheets.
+    post:
+      tags:
+      - Timesheets
+      summary: Create a timesheet
+      responses:
+        '201':
+          $ref: '#/components/responses/single_timesheet'
+        '422':
+          content:
+            application/vnd.api+json: {}
+          headers:
+            Content-Type:
+              schema:
+                type: string
+          description: Unprocessable Entity
+      operationId: timesheets-create
+      requestBody:
+        $ref: '#/components/requestBodies/timesheet'
+      description: Create a new timesheet.
+  /api/v2/timesheets/{id}:
+    get:
+      tags:
+      - Timesheets
+      summary: Gets a timesheet
+      responses:
+        '200':
+          $ref: '#/components/responses/single_timesheet'
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The ID of the timesheet to retrieve.
+      operationId: timesheets-show
+      description: Retrieve a single timesheet by ID.
+    delete:
+      tags:
+      - Timesheets
+      summary: Deletes a timesheet
+      responses:
+        '204':
+          description: No Content
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The ID of the timesheet to delete.
+      operationId: timesheets-destroy
+      description: Delete a timesheet by ID.
 components:
   schemas:
     _single_relationship:
@@ -1530,6 +1592,472 @@ components:
           occurred_at: '2026-01-15T10:00:00Z'
           payload: {}
         relationships: {}
+    resource_project:
+      type: object
+      title: Project Resource
+      properties:
+        project_manager:
+          title: Project Manager
+          description: The project manager responsible for this project.
+          example:
+            eq: value
+        profit:
+          type: integer
+          title: Profit
+          description: Total profit across all open budgets for this project, in the
+            organization's base currency.
+          example:
+            eq: value
+        workflow_id:
+          type: integer
+          title: Workflow
+          description: ID of the task workflow used in this project.
+          example:
+          - 123
+        sample_data:
+          type: boolean
+          title: Sample Data
+          description: Whether this project was created with sample/demo data.
+          example:
+            eq: value
+        project_manager_id:
+          type: integer
+          title: Project Manager
+          description: ID of the project manager (responsible person).
+          example:
+          - 123
+        page_custom_fields_ids:
+          type: object
+          title: Page Custom Fields Ids
+          description: Ordered list of custom field IDs enabled for pages in this
+            project.
+          example:
+          - 123
+          - 456
+        person_id:
+          type: integer
+          title: Person
+          description: ID of a person who is a member of this project.
+          example:
+          - 123
+        import:
+          title: Import
+        template:
+          type: string
+          title: Template
+          description: Whether this project is a template.
+          example:
+            eq: value
+        revenue:
+          type: integer
+          title: Revenue
+          description: Total revenue across all open budgets for this project, in
+            the organization's base currency.
+          example:
+            eq: value
+        status:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Status
+          description: Project status. 1 = active, 2 = archived.
+          example:
+            eq: active
+        worked_time:
+          type: integer
+          title: Worked Time
+          description: Total worked time across all open budgets for this project,
+            in minutes.
+          example:
+            gt: 0
+        company_name:
+          title: Company Name
+          description: Name of the client company associated with this project.
+          example:
+            eq: value
+        tag_colors:
+          type: string
+          title: Tag Colors
+          description: Color mappings for project tags, keyed by tag name.
+          example:
+            eq: value
+        profit_margin:
+          type: integer
+          title: Profit Margin
+          description: Profit margin percentage across all open budgets for this project.
+          example:
+            eq: value
+        custom_field_people:
+          title: Custom Field People
+          description: People referenced by person-type custom field values on this
+            project.
+          example:
+            eq: value
+        archived_at:
+          type: string
+          title: Archived At
+          format: date-time
+          description: Archived at date
+          example:
+            gt: '2026-01-01'
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values for this project, keyed by custom field
+            ID.
+          example:
+            eq: value
+        fuzzy_dates:
+          type: string
+          title: Fuzzy Dates
+          format: date
+          description: Fuzzy date range filter for project start/end dates.
+          example:
+            gt: '2026-01-01'
+        project_color:
+          type: integer
+          title: Project Color
+          description: Display color label for the project.
+          example:
+            eq: value
+        estimated_time:
+          type: integer
+          title: Estimated Time
+          description: Total estimated time across all open budgets for this project,
+            in minutes.
+          example:
+            gt: 0
+        company_id:
+          type: integer
+          title: Company
+          description: ID of the client company associated with this project.
+          example:
+          - 123
+        name:
+          type: string
+          title: Name
+          description: Project name.
+          example:
+            eq: value
+        for_tracking:
+          type: boolean
+          title: For Tracking
+          description: Whether this project is eligible for time tracking (i.e. active).
+          example:
+            eq: value
+        project_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Human-readable project type label.
+          example:
+            eq: active
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Timestamp when this project was created.
+          example:
+            gt: '2026-01-01'
+        project_type_id:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Whether this project is billable client work (1) or internal
+            overhead (2).
+          example:
+          - 123
+        responsible_id:
+          type: integer
+          title: Responsible
+          description: ID of the responsible person (project manager) for this project.
+          example:
+          - 123
+        cost:
+          type: integer
+          title: Cost
+          description: Total cost across all open budgets for this project, in the
+            organization's base currency.
+          example:
+            eq: value
+        jump_query:
+          type: string
+          title: Jump Query
+          description: Quick-jump search query for project navigation.
+          example:
+            eq: value
+        fuzzy_people:
+          type: integer
+          title: Fuzzy People
+          description: Fuzzy person filter — matches projects by associated people.
+          example:
+            eq: value
+        template_object:
+          title: Template Object
+          description: The template this project was created from, if any.
+          example:
+            eq: value
+        full_query:
+          type: string
+          title: Full Query
+          description: Full-text search query across all project content fields.
+          example:
+            eq: value
+        number:
+          type: string
+          title: Number
+          description: Auto-generated unique project number.
+          example:
+            eq: value
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: File attachments referenced by custom field values on this
+            project.
+          example:
+            gt: '2026-01-01'
+        project_id:
+          type: integer
+          title: Project
+          description: Alias for the project ID field.
+          example:
+          - 123
+        parent_company_id:
+          type: integer
+          title: Parent Company
+          description: ID of the parent company of the client linked to this project,
+            used for hierarchical company filtering.
+          example:
+          - 123
+        id:
+          type: integer
+          title: Id
+          description: Unique project ID.
+          example:
+          - 123
+        query:
+          type: string
+          title: Query
+          description: Full-text search query across project fields.
+          example:
+            eq: value
+        pending_invoicing:
+          type: integer
+          title: Pending Invoicing
+          description: Total amount pending invoicing across all open budgets for
+            this project, in the organization's base currency.
+          example:
+            eq: value
+        workflow:
+          title: Workflow
+          description: The task workflow used in this project.
+          example:
+            eq: value
+        task_custom_fields_ids:
+          type: object
+          title: Task Custom Fields Ids
+          description: Ordered list of custom field IDs enabled for tasks in this
+            project.
+          example:
+          - 123
+          - 456
+        total_worked_time:
+          type: integer
+          title: Total Worked Time
+          description: Total worked time across all budgets (including closed) for
+            this project, in minutes.
+          example:
+            gt: 0
+        duplication_status:
+          enum:
+          - idle
+          - in_progress
+          - failed
+          type: string
+          title: Duplication Status
+          description: 'Background duplication status when copying from a template.
+            One of: idle, in_progress, done, failed.'
+          example:
+            eq: active
+        budget_id:
+          type: integer
+          title: Budget
+          description: ID of a budget linked to this project.
+          example:
+          - 123
+        project_color_id:
+          type: integer
+          title: Project Color
+          description: Display color ID for the project.
+          example:
+          - 123
+        public_access:
+          type: boolean
+          title: Public Access
+          description: Deprecated. No-op — has no effect.
+          example:
+            eq: value
+        organization:
+          title: Organization
+          description: The organization this project belongs to.
+          example:
+            eq: value
+        page_custom_fields_positions:
+          type: object
+          title: Page Custom Fields Positions
+          description: Display position order for page custom fields in this project.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Timestamp of the most recent activity on this project.
+          example:
+            gt: '2026-01-01'
+        with_templates:
+          type: boolean
+          title: With Templates
+          description: When true, includes project templates in the results (templates
+            are excluded by default).
+          example:
+            eq: value
+        preferences:
+          type: object
+          title: Preferences
+          description: Project-level display and behavior preferences.
+          example:
+            eq: value
+        last_actor:
+          title: Last Actor
+          description: The person who last performed an activity on this project.
+          example:
+            eq: value
+        project_number:
+          type: string
+          title: Project Number
+          description: Formatted project number string (e.g. ACME-001).
+          example:
+            eq: value
+        company:
+          title: Company
+          description: The client company linked to this project.
+          example:
+            eq: value
+        task_custom_fields_positions:
+          type: object
+          title: Task Custom Fields Positions
+          description: Display position order for task custom fields in this project.
+          example:
+            eq: value
+      description: A workspace for tasks, documents, surveys, and budgets. Projects
+        can be billable (client work) or internal (overhead), and provide the organizational
+        structure for team collaboration.
+      example:
+        id: '6899'
+        type: projects
+        attributes:
+          name: Website Redesign
+          number: '12'
+          project_number: '12'
+          project_color_id: 1
+          preferences: {}
+          last_activity_at: '2026-03-15T10:30:00.000+00:00'
+          archived_at: null
+          created_at: '2026-01-01T09:00:00.000+00:00'
+          template: false
+          description: null
+          custom_fields: null
+          tag_colors: {}
+        relationships:
+          company:
+            data:
+              type: companies
+              id: '65111'
+          project_manager:
+            data:
+              type: people
+              id: '12'
+          workflow:
+            data:
+              type: workflows
+              id: '75'
+    _collection_relationship:
+      anyOf:
+      - type: object
+        title: Collection data
+        properties:
+          data:
+            type: array
+            items:
+              $ref: '#/components/schemas/_resource'
+            description: Array of resource identifier objects for the related resources.
+            example:
+            - type: tasks
+              id: '42'
+        description: Included variant — related resource identifiers are present in
+          `data`.
+        example:
+          data:
+          - type: tasks
+            id: '42'
+      - $ref: '#/components/schemas/_not_included'
+      description: A JSON:API collection relationship — links to zero or more related
+        resources.
+      example:
+        data:
+        - type: tasks
+          id: '42'
+    _meta:
+      type: object
+      title: Meta
+      properties:
+        total_count:
+          type: integer
+          description: Total number of records matching the current query across all
+            pages.
+          example: 42
+        settings:
+          type: object
+          description: Organization or user settings relevant to this resource's display.
+          example:
+            feature_x: true
+            notifications:
+              email: true
+        organization_features:
+          type: object
+          description: Feature flags and capabilities enabled for the current organization,
+            used for UI rendering.
+          example: []
+        current_page:
+          type: integer
+          description: The current page number in this paginated response (1-based).
+          example: 1
+        page_size:
+          type: integer
+          description: Number of records returned per page in this response.
+          example: 30
+        max_page_size:
+          type: integer
+          description: Maximum number of records allowed per page for this endpoint.
+          example: 200
+        total_pages:
+          type: integer
+          description: Total number of pages available for the current query and page
+            size.
+          example: 5
+      description: Pagination and response metadata returned with every collection
+        endpoint.
+      example:
+        current_page: 1
+        total_pages: 5
+        total_count: 42
+        page_size: 30
+        max_page_size: 200
     resource_service:
       type: object
       title: Service Resource
@@ -2413,6 +2941,562 @@ components:
             data: null
           section:
             data: null
+    resource_timesheet:
+      type: object
+      title: Timesheet Resource
+      properties:
+        organization:
+          title: Organization
+          description: The organization this timesheet belongs to.
+          example:
+            eq: value
+        creator:
+          title: Creator
+          description: The person who created this timesheet.
+          example:
+            eq: value
+        id:
+          title: Id
+          description: Unique identifier for the timesheet.
+          example:
+          - 123
+        person_id:
+          type: integer
+          title: Person
+          description: The ID of the person this timesheet belongs to.
+          example:
+          - 123
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Timestamp when the timesheet was created.
+          example:
+            gt: '2026-01-01'
+        date:
+          type: string
+          title: Date
+          format: date
+          description: The date this timesheet covers.
+          example:
+            gt: '2026-01-01'
+        person:
+          title: Person
+          description: The person this timesheet belongs to.
+          example:
+            eq: value
+        creator_id:
+          type: integer
+          title: Creator
+          description: The ID of the person who created this timesheet.
+          example:
+          - 123
+      description: A daily aggregate of a person's time entries, serving as the unit
+        of submission in the time approval workflow.
+      example:
+        id: '123'
+        type: timesheets
+        attributes:
+          week_starting: '2026-01-13'
+          status: submitted
+          total_hours: 40
+        relationships:
+          person:
+            data:
+              type: people
+              id: '12'
+    resource_booking:
+      type: object
+      title: Booking Resource
+      properties:
+        task_id:
+          type: integer
+          title: Task
+          description: The ID of the task associated with this booking, if applicable.
+          example:
+          - 123
+        before:
+          type: string
+          title: Before
+          format: date
+          description: Internal field used for date-range filtering.
+          example:
+            eq: value
+        approved_at:
+          type: string
+          title: Approved At
+          format: date-time
+          description: Timestamp when the booking was approved, or null if not yet
+            approved.
+          example:
+            gt: '2026-01-01'
+        time:
+          type: integer
+          title: Time
+          description: The booked time in minutes per day.
+          example:
+            gt: 0
+        after:
+          type: string
+          title: After
+          format: date
+          description: Internal field used for date-range filtering.
+          example:
+            eq: value
+        canceler:
+          title: Canceler
+          description: The person who canceled this booking.
+          example:
+            eq: value
+        draft:
+          type: boolean
+          title: Draft
+          description: Whether the booking is tentative (draft) or confirmed.
+          example:
+            eq: value
+        id:
+          type: integer
+          title: Id
+          description: Unique identifier of the booking.
+          example:
+          - 123
+        approved:
+          title: Approved
+          description: Indicates whether the booking has been approved.
+          example:
+            eq: value
+        percentage:
+          type: integer
+          title: Percentage
+          description: Scheduled time as a percentage of the person's daily capacity.
+          example:
+            eq: value
+        project_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Project Type
+          description: Type of the associated project (e.g. billable or internal).
+          example:
+            eq: active
+        external_id:
+          type: string
+          title: External
+          description: External identifier for integration with third-party systems.
+          example:
+          - 123
+        approver_id:
+          type: integer
+          title: Approver
+          description: The ID of the person who approved this booking.
+          example:
+          - 123
+        autotracking:
+          type: boolean
+          title: Autotracking
+          description: When true, time entries are automatically tracked against this
+            booking.
+          example:
+            eq: value
+        task:
+          title: Task
+          description: The task associated with this booking, if applicable.
+          example:
+            eq: value
+        attachments:
+          title: Attachments
+          description: Files attached to this booking.
+          example:
+            eq: value
+        updated_at:
+          type: string
+          title: Updated At
+          format: date-time
+          description: Timestamp when this booking was last updated.
+          example:
+            gt: '2026-01-01'
+        rejected_at:
+          type: string
+          title: Rejected At
+          format: date-time
+          description: Date when the booking was rejected.
+          example:
+            gt: '2026-01-01'
+        rejected_reason:
+          type: string
+          title: Rejected Reason
+          description: Reason provided when the booking was rejected.
+          example:
+            eq: value
+        creator:
+          title: Creator
+          description: The person who created this booking.
+          example:
+            eq: value
+        resource_request:
+          title: Resource Request
+          description: The resource request this booking fulfills, if applicable.
+          example:
+            eq: value
+        attachment_ids:
+          title: Attachment Ids
+          description: Array of IDs of files attached to this booking.
+          example:
+          - 123
+          - 456
+        canceled_at:
+          type: string
+          title: Canceled At
+          format: date-time
+          description: Date when the booking was canceled.
+          example:
+            gt: '2026-01-01'
+        ended_on:
+          type: string
+          title: Ended On
+          format: date
+          description: Booking end date.
+          example:
+            eq: value
+        people_custom_fields:
+          type: string
+          title: People Custom Fields
+          description: Custom field values defined on the assigned person.
+          example:
+            eq: value
+        rejected:
+          title: Rejected
+          description: Whether this booking has been rejected.
+          example:
+            eq: value
+        resource_request_id:
+          type: integer
+          title: Resource Request
+          description: ID of the resource request this booking fulfills.
+          example:
+          - 123
+        origin_id:
+          type: integer
+          title: Origin
+          description: The ID of the origin record (e.g. resource request) that created
+            this booking.
+          example:
+          - 123
+        with_draft:
+          type: boolean
+          title: With Draft
+          description: When true, draft bookings are included in availability and
+            planning views.
+          example:
+            eq: value
+        stage_type:
+          enum:
+          - 1
+          - 2
+          type: integer
+          title: Stage Type
+          description: The stage type of the booking within the resource planning
+            workflow.
+          example:
+            eq: active
+        custom_field_people:
+          title: Custom Field People
+          description: People linked via custom fields on this booking.
+          example:
+            eq: value
+        last_activity_at:
+          type: string
+          title: Last Activity At
+          format: date-time
+          description: Timestamp of the last activity recorded on this booking.
+          example:
+            gt: '2026-01-01'
+        service:
+          title: Service
+          description: The budget service being scheduled in this booking.
+          example:
+            eq: value
+        hours:
+          type: integer
+          title: Hours
+          description: Scheduled hours per day for this booking.
+          example:
+            eq: value
+        origin:
+          title: Origin
+          description: The booking origin (e.g. the resource request that generated
+            this booking).
+          example:
+            eq: value
+        created_at:
+          type: string
+          title: Created At
+          format: date-time
+          description: Date when the booking was created.
+          example:
+            gt: '2026-01-01'
+        updater:
+          title: Updater
+          description: The person who last updated this booking.
+          example:
+            eq: value
+        approval_statuses:
+          title: Approval Statuses
+          description: Per-approver approval status records for this booking.
+          example:
+            eq: active
+        service_id:
+          type: integer
+          title: Service
+          description: The ID of the service this booking is scheduled against.
+          example:
+          - 123
+        rejecter:
+          title: Rejecter
+          description: The person who rejected this booking.
+          example:
+            eq: value
+        person_subsidiary_id:
+          type: integer
+          title: Person Subsidiary
+          description: ID of the subsidiary the assigned person belongs to.
+          example:
+          - 123
+        person_id:
+          type: integer
+          title: Person
+          description: ID of the person assigned to this booking.
+          example:
+          - 123
+        scenario_item:
+          title: Scenario Item
+          description: The scenario item this booking is linked to, if created from
+            a scenario.
+          example:
+            eq: value
+        project_id:
+          type: integer
+          title: Project
+          description: ID of the project this booking relates to.
+          example:
+          - 123
+        budget_id:
+          type: integer
+          title: Budget
+          description: ID of the budget (deal) associated with the booking's service.
+          example:
+          - 123
+        total_time:
+          type: integer
+          title: Total Time
+          description: The total booked time in minutes across the entire booking
+            period.
+          example:
+            gt: 0
+        note:
+          type: string
+          title: Note
+          description: An optional note or description for this booking.
+          example:
+            eq: value
+        person_type:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Person Type
+          description: Type of the assigned person (e.g. employee, contractor, placeholder).
+          example:
+            eq: active
+        total_working_days:
+          type: integer
+          title: Total Working Days
+          description: The total number of working days covered by this booking.
+          example:
+            eq: value
+        approver:
+          title: Approver
+          description: The person who approved this booking.
+          example:
+            eq: value
+        status:
+          title: Status
+          description: The current approval status of the booking (e.g. pending, approved,
+            rejected).
+          example:
+            eq: active
+        event:
+          title: Event
+          description: The absence event category (e.g. vacation, sick leave) for
+            absence bookings.
+          example:
+            eq: value
+        company_id:
+          type: integer
+          title: Company
+          description: ID of the client company associated with this booking.
+          example:
+          - 123
+        custom_field_attachments:
+          title: Custom Field Attachments
+          description: File attachments linked via custom fields on this booking.
+          example:
+            gt: '2026-01-01'
+        approval_status:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 5
+          type: integer
+          title: Approval Status
+          description: Whether the booking has been approved. Reflects the overall
+            approval_status.
+          example:
+            eq: active
+        custom_fields:
+          type: object
+          title: Custom Fields
+          description: Custom field values for this booking.
+          example:
+            eq: value
+        event_id:
+          type: integer
+          title: Event
+          description: ID of the absence event category for this booking.
+          example:
+          - 123
+        person:
+          title: Person
+          description: The person assigned to this booking.
+          example:
+            eq: value
+        organization:
+          title: Organization
+          description: The organization this booking belongs to.
+          example:
+            eq: value
+        canceled:
+          type: boolean
+          title: Canceled
+          description: Whether this booking has been canceled.
+          example:
+            eq: value
+        booking_method_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          type: integer
+          title: Booking Method
+          description: ID of the booking method used to create this booking (e.g.
+            hours per day, percentage, total hours).
+          example:
+          - 123
+        tags:
+          type: integer
+          title: Tags
+          description: Tags associated with this booking.
+          example:
+            eq: value
+        started_on:
+          type: string
+          title: Started On
+          format: date
+          description: The start date of the booking.
+          example:
+            eq: value
+        use_salary_currency:
+          type: boolean
+          title: Use Salary Currency
+          description: When true, cost calculations use the person's salary currency
+            instead of the service currency.
+          example:
+            eq: value
+        billing_type_id:
+          enum:
+          - 1
+          - 2
+          - 3
+          - 4
+          type: integer
+          title: Billing Type
+          description: ID of the billing type of the associated service.
+          example:
+          - 123
+        booking_type:
+          type: string
+          title: Booking Type
+          description: Whether this is a project booking or an absence booking.
+          example:
+            eq: active
+      description: A booking represents planned work or an absence scheduled for a
+        person, linked to a service or absence category.
+      example:
+        id: '1594'
+        type: bookings
+        attributes:
+          hours: 8
+          time: 480
+          started_on: '2026-03-17'
+          ended_on: '2026-03-21'
+          total_time: 2400
+          total_working_days: 5
+          percentage: null
+          note: null
+          created_at: '2026-03-01T09:00:00.000+00:00'
+          updated_at: '2026-03-01T09:00:00.000+00:00'
+          people_custom_fields: {}
+          approved: false
+          approved_at: null
+          rejected: false
+          rejected_reason: null
+          rejected_at: null
+          canceled: false
+          canceled_at: null
+          booking_method_id: 1
+          autotracking: false
+          draft: false
+          custom_fields: null
+          last_activity_at: '2026-03-01T09:00:00.000+00:00'
+        relationships:
+          person:
+            data:
+              type: people
+              id: '12'
+          service:
+            data:
+              type: services
+              id: '1856422'
+          event:
+            data: null
+          task:
+            data: null
+    _not_included:
+      type: object
+      title: Not included
+      properties:
+        meta:
+          type: object
+          properties:
+            included:
+              enum:
+              - false
+              type: boolean
+              description: Whether the related resource was included in the sideloaded
+                data. Always `false` for this variant.
+              example: false
+          description: Metadata indicating the sideload status of this relationship.
+          example:
+            included: false
+      description: Placeholder for a relationship that was not sideloaded in this
+        response.
+      example:
+        meta:
+          included: false
     _resource:
       type: object
       title: Resource Identifier
@@ -2430,426 +3514,6 @@ components:
       example:
         type: tasks
         id: '42'
-    resource_project:
-      type: object
-      title: Project Resource
-      properties:
-        project_manager:
-          title: Project Manager
-          description: The project manager responsible for this project.
-          example:
-            eq: value
-        profit:
-          type: integer
-          title: Profit
-          description: Total profit across all open budgets for this project, in the
-            organization's base currency.
-          example:
-            eq: value
-        workflow_id:
-          type: integer
-          title: Workflow
-          description: ID of the task workflow used in this project.
-          example:
-          - 123
-        sample_data:
-          type: boolean
-          title: Sample Data
-          description: Whether this project was created with sample/demo data.
-          example:
-            eq: value
-        project_manager_id:
-          type: integer
-          title: Project Manager
-          description: ID of the project manager (responsible person).
-          example:
-          - 123
-        page_custom_fields_ids:
-          type: object
-          title: Page Custom Fields Ids
-          description: Ordered list of custom field IDs enabled for pages in this
-            project.
-          example:
-          - 123
-          - 456
-        person_id:
-          type: integer
-          title: Person
-          description: ID of a person who is a member of this project.
-          example:
-          - 123
-        import:
-          title: Import
-        template:
-          type: string
-          title: Template
-          description: Whether this project is a template.
-          example:
-            eq: value
-        revenue:
-          type: integer
-          title: Revenue
-          description: Total revenue across all open budgets for this project, in
-            the organization's base currency.
-          example:
-            eq: value
-        status:
-          enum:
-          - 1
-          - 2
-          type: integer
-          title: Status
-          description: Project status. 1 = active, 2 = archived.
-          example:
-            eq: active
-        worked_time:
-          type: integer
-          title: Worked Time
-          description: Total worked time across all open budgets for this project,
-            in minutes.
-          example:
-            gt: 0
-        company_name:
-          title: Company Name
-          description: Name of the client company associated with this project.
-          example:
-            eq: value
-        tag_colors:
-          type: string
-          title: Tag Colors
-          description: Color mappings for project tags, keyed by tag name.
-          example:
-            eq: value
-        profit_margin:
-          type: integer
-          title: Profit Margin
-          description: Profit margin percentage across all open budgets for this project.
-          example:
-            eq: value
-        custom_field_people:
-          title: Custom Field People
-          description: People referenced by person-type custom field values on this
-            project.
-          example:
-            eq: value
-        archived_at:
-          type: string
-          title: Archived At
-          format: date-time
-          description: Archived at date
-          example:
-            gt: '2026-01-01'
-        custom_fields:
-          type: object
-          title: Custom Fields
-          description: Custom field values for this project, keyed by custom field
-            ID.
-          example:
-            eq: value
-        fuzzy_dates:
-          type: string
-          title: Fuzzy Dates
-          format: date
-          description: Fuzzy date range filter for project start/end dates.
-          example:
-            gt: '2026-01-01'
-        project_color:
-          type: integer
-          title: Project Color
-          description: Display color label for the project.
-          example:
-            eq: value
-        estimated_time:
-          type: integer
-          title: Estimated Time
-          description: Total estimated time across all open budgets for this project,
-            in minutes.
-          example:
-            gt: 0
-        company_id:
-          type: integer
-          title: Company
-          description: ID of the client company associated with this project.
-          example:
-          - 123
-        name:
-          type: string
-          title: Name
-          description: Project name.
-          example:
-            eq: value
-        for_tracking:
-          type: boolean
-          title: For Tracking
-          description: Whether this project is eligible for time tracking (i.e. active).
-          example:
-            eq: value
-        project_type:
-          enum:
-          - 1
-          - 2
-          type: integer
-          title: Project Type
-          description: Human-readable project type label.
-          example:
-            eq: active
-        created_at:
-          type: string
-          title: Created At
-          format: date-time
-          description: Timestamp when this project was created.
-          example:
-            gt: '2026-01-01'
-        project_type_id:
-          enum:
-          - 1
-          - 2
-          type: integer
-          title: Project Type
-          description: Whether this project is billable client work (1) or internal
-            overhead (2).
-          example:
-          - 123
-        responsible_id:
-          type: integer
-          title: Responsible
-          description: ID of the responsible person (project manager) for this project.
-          example:
-          - 123
-        cost:
-          type: integer
-          title: Cost
-          description: Total cost across all open budgets for this project, in the
-            organization's base currency.
-          example:
-            eq: value
-        jump_query:
-          type: string
-          title: Jump Query
-          description: Quick-jump search query for project navigation.
-          example:
-            eq: value
-        fuzzy_people:
-          type: integer
-          title: Fuzzy People
-          description: Fuzzy person filter — matches projects by associated people.
-          example:
-            eq: value
-        template_object:
-          title: Template Object
-          description: The template this project was created from, if any.
-          example:
-            eq: value
-        full_query:
-          type: string
-          title: Full Query
-          description: Full-text search query across all project content fields.
-          example:
-            eq: value
-        number:
-          type: string
-          title: Number
-          description: Auto-generated unique project number.
-          example:
-            eq: value
-        custom_field_attachments:
-          title: Custom Field Attachments
-          description: File attachments referenced by custom field values on this
-            project.
-          example:
-            gt: '2026-01-01'
-        project_id:
-          type: integer
-          title: Project
-          description: Alias for the project ID field.
-          example:
-          - 123
-        parent_company_id:
-          type: integer
-          title: Parent Company
-          description: ID of the parent company of the client linked to this project,
-            used for hierarchical company filtering.
-          example:
-          - 123
-        id:
-          type: integer
-          title: Id
-          description: Unique project ID.
-          example:
-          - 123
-        query:
-          type: string
-          title: Query
-          description: Full-text search query across project fields.
-          example:
-            eq: value
-        pending_invoicing:
-          type: integer
-          title: Pending Invoicing
-          description: Total amount pending invoicing across all open budgets for
-            this project, in the organization's base currency.
-          example:
-            eq: value
-        workflow:
-          title: Workflow
-          description: The task workflow used in this project.
-          example:
-            eq: value
-        task_custom_fields_ids:
-          type: object
-          title: Task Custom Fields Ids
-          description: Ordered list of custom field IDs enabled for tasks in this
-            project.
-          example:
-          - 123
-          - 456
-        total_worked_time:
-          type: integer
-          title: Total Worked Time
-          description: Total worked time across all budgets (including closed) for
-            this project, in minutes.
-          example:
-            gt: 0
-        duplication_status:
-          enum:
-          - idle
-          - in_progress
-          - failed
-          type: string
-          title: Duplication Status
-          description: 'Background duplication status when copying from a template.
-            One of: idle, in_progress, done, failed.'
-          example:
-            eq: active
-        budget_id:
-          type: integer
-          title: Budget
-          description: ID of a budget linked to this project.
-          example:
-          - 123
-        project_color_id:
-          type: integer
-          title: Project Color
-          description: Display color ID for the project.
-          example:
-          - 123
-        public_access:
-          type: boolean
-          title: Public Access
-          description: Deprecated. No-op — has no effect.
-          example:
-            eq: value
-        organization:
-          title: Organization
-          description: The organization this project belongs to.
-          example:
-            eq: value
-        page_custom_fields_positions:
-          type: object
-          title: Page Custom Fields Positions
-          description: Display position order for page custom fields in this project.
-          example:
-            eq: value
-        last_activity_at:
-          type: string
-          title: Last Activity At
-          format: date-time
-          description: Timestamp of the most recent activity on this project.
-          example:
-            gt: '2026-01-01'
-        with_templates:
-          type: boolean
-          title: With Templates
-          description: When true, includes project templates in the results (templates
-            are excluded by default).
-          example:
-            eq: value
-        preferences:
-          type: object
-          title: Preferences
-          description: Project-level display and behavior preferences.
-          example:
-            eq: value
-        last_actor:
-          title: Last Actor
-          description: The person who last performed an activity on this project.
-          example:
-            eq: value
-        project_number:
-          type: string
-          title: Project Number
-          description: Formatted project number string (e.g. ACME-001).
-          example:
-            eq: value
-        company:
-          title: Company
-          description: The client company linked to this project.
-          example:
-            eq: value
-        task_custom_fields_positions:
-          type: object
-          title: Task Custom Fields Positions
-          description: Display position order for task custom fields in this project.
-          example:
-            eq: value
-      description: A workspace for tasks, documents, surveys, and budgets. Projects
-        can be billable (client work) or internal (overhead), and provide the organizational
-        structure for team collaboration.
-      example:
-        id: '6899'
-        type: projects
-        attributes:
-          name: Website Redesign
-          number: '12'
-          project_number: '12'
-          project_color_id: 1
-          preferences: {}
-          last_activity_at: '2026-03-15T10:30:00.000+00:00'
-          archived_at: null
-          created_at: '2026-01-01T09:00:00.000+00:00'
-          template: false
-          description: null
-          custom_fields: null
-          tag_colors: {}
-        relationships:
-          company:
-            data:
-              type: companies
-              id: '65111'
-          project_manager:
-            data:
-              type: people
-              id: '12'
-          workflow:
-            data:
-              type: workflows
-              id: '75'
-    _collection_relationship:
-      anyOf:
-      - type: object
-        title: Collection data
-        properties:
-          data:
-            type: array
-            items:
-              $ref: '#/components/schemas/_resource'
-            description: Array of resource identifier objects for the related resources.
-            example:
-            - type: tasks
-              id: '42'
-        description: Included variant — related resource identifiers are present in
-          `data`.
-        example:
-          data:
-          - type: tasks
-            id: '42'
-      - $ref: '#/components/schemas/_not_included'
-      description: A JSON:API collection relationship — links to zero or more related
-        resources.
-      example:
-        data:
-        - type: tasks
-          id: '42'
     resource_time_entry:
       type: object
       title: Time entry Resource
@@ -3571,544 +4235,6 @@ components:
               id: '120501'
           approver:
             data: null
-    _meta:
-      type: object
-      title: Meta
-      properties:
-        total_count:
-          type: integer
-          description: Total number of records matching the current query across all
-            pages.
-          example: 42
-        settings:
-          type: object
-          description: Organization or user settings relevant to this resource's display.
-          example:
-            feature_x: true
-            notifications:
-              email: true
-        organization_features:
-          type: object
-          description: Feature flags and capabilities enabled for the current organization,
-            used for UI rendering.
-          example: []
-        current_page:
-          type: integer
-          description: The current page number in this paginated response (1-based).
-          example: 1
-        page_size:
-          type: integer
-          description: Number of records returned per page in this response.
-          example: 30
-        max_page_size:
-          type: integer
-          description: Maximum number of records allowed per page for this endpoint.
-          example: 200
-        total_pages:
-          type: integer
-          description: Total number of pages available for the current query and page
-            size.
-          example: 5
-      description: Pagination and response metadata returned with every collection
-        endpoint.
-      example:
-        current_page: 1
-        total_pages: 5
-        total_count: 42
-        page_size: 30
-        max_page_size: 200
-    _not_included:
-      type: object
-      title: Not included
-      properties:
-        meta:
-          type: object
-          properties:
-            included:
-              enum:
-              - false
-              type: boolean
-              description: Whether the related resource was included in the sideloaded
-                data. Always `false` for this variant.
-              example: false
-          description: Metadata indicating the sideload status of this relationship.
-          example:
-            included: false
-      description: Placeholder for a relationship that was not sideloaded in this
-        response.
-      example:
-        meta:
-          included: false
-    resource_booking:
-      type: object
-      title: Booking Resource
-      properties:
-        task_id:
-          type: integer
-          title: Task
-          description: The ID of the task associated with this booking, if applicable.
-          example:
-          - 123
-        before:
-          type: string
-          title: Before
-          format: date
-          description: Internal field used for date-range filtering.
-          example:
-            eq: value
-        approved_at:
-          type: string
-          title: Approved At
-          format: date-time
-          description: Timestamp when the booking was approved, or null if not yet
-            approved.
-          example:
-            gt: '2026-01-01'
-        time:
-          type: integer
-          title: Time
-          description: The booked time in minutes per day.
-          example:
-            gt: 0
-        after:
-          type: string
-          title: After
-          format: date
-          description: Internal field used for date-range filtering.
-          example:
-            eq: value
-        canceler:
-          title: Canceler
-          description: The person who canceled this booking.
-          example:
-            eq: value
-        draft:
-          type: boolean
-          title: Draft
-          description: Whether the booking is tentative (draft) or confirmed.
-          example:
-            eq: value
-        id:
-          type: integer
-          title: Id
-          description: Unique identifier of the booking.
-          example:
-          - 123
-        approved:
-          title: Approved
-          description: Indicates whether the booking has been approved.
-          example:
-            eq: value
-        percentage:
-          type: integer
-          title: Percentage
-          description: Scheduled time as a percentage of the person's daily capacity.
-          example:
-            eq: value
-        project_type:
-          enum:
-          - 1
-          - 2
-          type: integer
-          title: Project Type
-          description: Type of the associated project (e.g. billable or internal).
-          example:
-            eq: active
-        external_id:
-          type: string
-          title: External
-          description: External identifier for integration with third-party systems.
-          example:
-          - 123
-        approver_id:
-          type: integer
-          title: Approver
-          description: The ID of the person who approved this booking.
-          example:
-          - 123
-        autotracking:
-          type: boolean
-          title: Autotracking
-          description: When true, time entries are automatically tracked against this
-            booking.
-          example:
-            eq: value
-        task:
-          title: Task
-          description: The task associated with this booking, if applicable.
-          example:
-            eq: value
-        attachments:
-          title: Attachments
-          description: Files attached to this booking.
-          example:
-            eq: value
-        updated_at:
-          type: string
-          title: Updated At
-          format: date-time
-          description: Timestamp when this booking was last updated.
-          example:
-            gt: '2026-01-01'
-        rejected_at:
-          type: string
-          title: Rejected At
-          format: date-time
-          description: Date when the booking was rejected.
-          example:
-            gt: '2026-01-01'
-        rejected_reason:
-          type: string
-          title: Rejected Reason
-          description: Reason provided when the booking was rejected.
-          example:
-            eq: value
-        creator:
-          title: Creator
-          description: The person who created this booking.
-          example:
-            eq: value
-        resource_request:
-          title: Resource Request
-          description: The resource request this booking fulfills, if applicable.
-          example:
-            eq: value
-        attachment_ids:
-          title: Attachment Ids
-          description: Array of IDs of files attached to this booking.
-          example:
-          - 123
-          - 456
-        canceled_at:
-          type: string
-          title: Canceled At
-          format: date-time
-          description: Date when the booking was canceled.
-          example:
-            gt: '2026-01-01'
-        ended_on:
-          type: string
-          title: Ended On
-          format: date
-          description: Booking end date.
-          example:
-            eq: value
-        people_custom_fields:
-          type: string
-          title: People Custom Fields
-          description: Custom field values defined on the assigned person.
-          example:
-            eq: value
-        rejected:
-          title: Rejected
-          description: Whether this booking has been rejected.
-          example:
-            eq: value
-        resource_request_id:
-          type: integer
-          title: Resource Request
-          description: ID of the resource request this booking fulfills.
-          example:
-          - 123
-        origin_id:
-          type: integer
-          title: Origin
-          description: The ID of the origin record (e.g. resource request) that created
-            this booking.
-          example:
-          - 123
-        with_draft:
-          type: boolean
-          title: With Draft
-          description: When true, draft bookings are included in availability and
-            planning views.
-          example:
-            eq: value
-        stage_type:
-          enum:
-          - 1
-          - 2
-          type: integer
-          title: Stage Type
-          description: The stage type of the booking within the resource planning
-            workflow.
-          example:
-            eq: active
-        custom_field_people:
-          title: Custom Field People
-          description: People linked via custom fields on this booking.
-          example:
-            eq: value
-        last_activity_at:
-          type: string
-          title: Last Activity At
-          format: date-time
-          description: Timestamp of the last activity recorded on this booking.
-          example:
-            gt: '2026-01-01'
-        service:
-          title: Service
-          description: The budget service being scheduled in this booking.
-          example:
-            eq: value
-        hours:
-          type: integer
-          title: Hours
-          description: Scheduled hours per day for this booking.
-          example:
-            eq: value
-        origin:
-          title: Origin
-          description: The booking origin (e.g. the resource request that generated
-            this booking).
-          example:
-            eq: value
-        created_at:
-          type: string
-          title: Created At
-          format: date-time
-          description: Date when the booking was created.
-          example:
-            gt: '2026-01-01'
-        updater:
-          title: Updater
-          description: The person who last updated this booking.
-          example:
-            eq: value
-        approval_statuses:
-          title: Approval Statuses
-          description: Per-approver approval status records for this booking.
-          example:
-            eq: active
-        service_id:
-          type: integer
-          title: Service
-          description: The ID of the service this booking is scheduled against.
-          example:
-          - 123
-        rejecter:
-          title: Rejecter
-          description: The person who rejected this booking.
-          example:
-            eq: value
-        person_subsidiary_id:
-          type: integer
-          title: Person Subsidiary
-          description: ID of the subsidiary the assigned person belongs to.
-          example:
-          - 123
-        person_id:
-          type: integer
-          title: Person
-          description: ID of the person assigned to this booking.
-          example:
-          - 123
-        scenario_item:
-          title: Scenario Item
-          description: The scenario item this booking is linked to, if created from
-            a scenario.
-          example:
-            eq: value
-        project_id:
-          type: integer
-          title: Project
-          description: ID of the project this booking relates to.
-          example:
-          - 123
-        budget_id:
-          type: integer
-          title: Budget
-          description: ID of the budget (deal) associated with the booking's service.
-          example:
-          - 123
-        total_time:
-          type: integer
-          title: Total Time
-          description: The total booked time in minutes across the entire booking
-            period.
-          example:
-            gt: 0
-        note:
-          type: string
-          title: Note
-          description: An optional note or description for this booking.
-          example:
-            eq: value
-        person_type:
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          type: integer
-          title: Person Type
-          description: Type of the assigned person (e.g. employee, contractor, placeholder).
-          example:
-            eq: active
-        total_working_days:
-          type: integer
-          title: Total Working Days
-          description: The total number of working days covered by this booking.
-          example:
-            eq: value
-        approver:
-          title: Approver
-          description: The person who approved this booking.
-          example:
-            eq: value
-        status:
-          title: Status
-          description: The current approval status of the booking (e.g. pending, approved,
-            rejected).
-          example:
-            eq: active
-        event:
-          title: Event
-          description: The absence event category (e.g. vacation, sick leave) for
-            absence bookings.
-          example:
-            eq: value
-        company_id:
-          type: integer
-          title: Company
-          description: ID of the client company associated with this booking.
-          example:
-          - 123
-        custom_field_attachments:
-          title: Custom Field Attachments
-          description: File attachments linked via custom fields on this booking.
-          example:
-            gt: '2026-01-01'
-        approval_status:
-          enum:
-          - 1
-          - 2
-          - 3
-          - 5
-          type: integer
-          title: Approval Status
-          description: Whether the booking has been approved. Reflects the overall
-            approval_status.
-          example:
-            eq: active
-        custom_fields:
-          type: object
-          title: Custom Fields
-          description: Custom field values for this booking.
-          example:
-            eq: value
-        event_id:
-          type: integer
-          title: Event
-          description: ID of the absence event category for this booking.
-          example:
-          - 123
-        person:
-          title: Person
-          description: The person assigned to this booking.
-          example:
-            eq: value
-        organization:
-          title: Organization
-          description: The organization this booking belongs to.
-          example:
-            eq: value
-        canceled:
-          type: boolean
-          title: Canceled
-          description: Whether this booking has been canceled.
-          example:
-            eq: value
-        booking_method_id:
-          enum:
-          - 1
-          - 2
-          - 3
-          type: integer
-          title: Booking Method
-          description: ID of the booking method used to create this booking (e.g.
-            hours per day, percentage, total hours).
-          example:
-          - 123
-        tags:
-          type: integer
-          title: Tags
-          description: Tags associated with this booking.
-          example:
-            eq: value
-        started_on:
-          type: string
-          title: Started On
-          format: date
-          description: The start date of the booking.
-          example:
-            eq: value
-        use_salary_currency:
-          type: boolean
-          title: Use Salary Currency
-          description: When true, cost calculations use the person's salary currency
-            instead of the service currency.
-          example:
-            eq: value
-        billing_type_id:
-          enum:
-          - 1
-          - 2
-          - 3
-          - 4
-          type: integer
-          title: Billing Type
-          description: ID of the billing type of the associated service.
-          example:
-          - 123
-        booking_type:
-          type: string
-          title: Booking Type
-          description: Whether this is a project booking or an absence booking.
-          example:
-            eq: active
-      description: A booking represents planned work or an absence scheduled for a
-        person, linked to a service or absence category.
-      example:
-        id: '1594'
-        type: bookings
-        attributes:
-          hours: 8
-          time: 480
-          started_on: '2026-03-17'
-          ended_on: '2026-03-21'
-          total_time: 2400
-          total_working_days: 5
-          percentage: null
-          note: null
-          created_at: '2026-03-01T09:00:00.000+00:00'
-          updated_at: '2026-03-01T09:00:00.000+00:00'
-          people_custom_fields: {}
-          approved: false
-          approved_at: null
-          rejected: false
-          rejected_reason: null
-          rejected_at: null
-          canceled: false
-          canceled_at: null
-          booking_method_id: 1
-          autotracking: false
-          draft: false
-          custom_fields: null
-          last_activity_at: '2026-03-01T09:00:00.000+00:00'
-        relationships:
-          person:
-            data:
-              type: people
-              id: '12'
-          service:
-            data:
-              type: services
-              id: '1856422'
-          event:
-            data: null
-          task:
-            data: null
     resource_person:
       type: object
       title: Person Resource
@@ -4779,54 +4905,6 @@ components:
             - type: teams
               id: '3'
   requestBodies:
-    time_entry:
-      content:
-        application/vnd.api+json:
-          schema:
-            type: object
-            properties:
-              data:
-                type: object
-                properties:
-                  attributes:
-                    type: object
-                    required:
-                    - service_id
-                    - person_id
-                    - date
-                    - time
-                    properties:
-                      date:
-                        $ref: '#/components/schemas/resource_time_entry/properties/date'
-                      note:
-                        $ref: '#/components/schemas/resource_time_entry/properties/note'
-                      time:
-                        $ref: '#/components/schemas/resource_time_entry/properties/time'
-                      task_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/task_id'
-                      person_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/person_id'
-                      service_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/service_id'
-                      started_at:
-                        $ref: '#/components/schemas/resource_time_entry/properties/started_at'
-                      billable_time:
-                        $ref: '#/components/schemas/resource_time_entry/properties/billable_time'
-                      jira_issue_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_id'
-                      jira_worklog_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/jira_worklog_id'
-                      calendar_event_id:
-                        $ref: '#/components/schemas/resource_time_entry/properties/calendar_event_id'
-                      jira_issue_status:
-                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_status'
-                      jira_organization:
-                        $ref: '#/components/schemas/resource_time_entry/properties/jira_organization'
-                      jira_issue_summary:
-                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_summary'
-                      use_salary_currency:
-                        $ref: '#/components/schemas/resource_time_entry/properties/use_salary_currency'
-      description: Request body for creating or updating a time entry.
     booking:
       content:
         application/vnd.api+json:
@@ -4884,6 +4962,71 @@ components:
                       use_salary_currency:
                         $ref: '#/components/schemas/resource_booking/properties/use_salary_currency'
       description: Request body for creating or updating a booking.
+    time_entry:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  attributes:
+                    type: object
+                    required:
+                    - service_id
+                    - person_id
+                    - date
+                    - time
+                    properties:
+                      date:
+                        $ref: '#/components/schemas/resource_time_entry/properties/date'
+                      note:
+                        $ref: '#/components/schemas/resource_time_entry/properties/note'
+                      time:
+                        $ref: '#/components/schemas/resource_time_entry/properties/time'
+                      task_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/task_id'
+                      person_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/person_id'
+                      service_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/service_id'
+                      started_at:
+                        $ref: '#/components/schemas/resource_time_entry/properties/started_at'
+                      billable_time:
+                        $ref: '#/components/schemas/resource_time_entry/properties/billable_time'
+                      jira_issue_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_id'
+                      jira_worklog_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/jira_worklog_id'
+                      calendar_event_id:
+                        $ref: '#/components/schemas/resource_time_entry/properties/calendar_event_id'
+                      jira_issue_status:
+                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_status'
+                      jira_organization:
+                        $ref: '#/components/schemas/resource_time_entry/properties/jira_organization'
+                      jira_issue_summary:
+                        $ref: '#/components/schemas/resource_time_entry/properties/jira_issue_summary'
+                      use_salary_currency:
+                        $ref: '#/components/schemas/resource_time_entry/properties/use_salary_currency'
+      description: Request body for creating or updating a time entry.
+    timesheet:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  attributes:
+                    type: object
+                    properties:
+                      date:
+                        $ref: '#/components/schemas/resource_timesheet/properties/date'
+                      person_id:
+                        $ref: '#/components/schemas/resource_timesheet/properties/person_id'
+      description: Request body for creating or updating a timesheet.
   responses:
     single_time_entry:
       content:
@@ -5069,6 +5212,39 @@ components:
                 type: array
                 items: {}
       description: Collection event
+    collection_timesheet:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    attributes:
+                      type: object
+                      properties:
+                        date:
+                          $ref: '#/components/schemas/resource_timesheet/properties/date'
+                        created_at:
+                          $ref: '#/components/schemas/resource_timesheet/properties/created_at'
+                    relationships:
+                      type: object
+                      properties:
+                        person:
+                          $ref: '#/components/schemas/_single_relationship'
+                        creator:
+                          $ref: '#/components/schemas/_single_relationship'
+                        organization:
+                          $ref: '#/components/schemas/_single_relationship'
+              meta:
+                $ref: '#/components/schemas/_meta'
+              included:
+                type: array
+                items: {}
+      description: Collection timesheet
     collection_service:
       content:
         application/vnd.api+json:
@@ -5448,6 +5624,111 @@ components:
                 type: array
                 items: {}
       description: Collection booking
+    single_booking:
+      content:
+        application/vnd.api+json:
+          schema:
+            type: object
+            properties:
+              data:
+                type: object
+                properties:
+                  attributes:
+                    type: object
+                    properties:
+                      note:
+                        $ref: '#/components/schemas/resource_booking/properties/note'
+                      time:
+                        $ref: '#/components/schemas/resource_booking/properties/time'
+                      draft:
+                        $ref: '#/components/schemas/resource_booking/properties/draft'
+                      hours:
+                        $ref: '#/components/schemas/resource_booking/properties/hours'
+                      approved:
+                        $ref: '#/components/schemas/resource_booking/properties/approved'
+                      canceled:
+                        $ref: '#/components/schemas/resource_booking/properties/canceled'
+                      ended_on:
+                        $ref: '#/components/schemas/resource_booking/properties/ended_on'
+                      rejected:
+                        $ref: '#/components/schemas/resource_booking/properties/rejected'
+                      created_at:
+                        $ref: '#/components/schemas/resource_booking/properties/created_at'
+                      percentage:
+                        $ref: '#/components/schemas/resource_booking/properties/percentage'
+                      stage_type:
+                        $ref: '#/components/schemas/resource_booking/properties/stage_type'
+                      started_on:
+                        $ref: '#/components/schemas/resource_booking/properties/started_on'
+                      total_time:
+                        $ref: '#/components/schemas/resource_booking/properties/total_time'
+                      updated_at:
+                        $ref: '#/components/schemas/resource_booking/properties/updated_at'
+                      approved_at:
+                        $ref: '#/components/schemas/resource_booking/properties/approved_at'
+                      canceled_at:
+                        $ref: '#/components/schemas/resource_booking/properties/canceled_at'
+                      external_id:
+                        $ref: '#/components/schemas/resource_booking/properties/external_id'
+                      rejected_at:
+                        $ref: '#/components/schemas/resource_booking/properties/rejected_at'
+                      autotracking:
+                        $ref: '#/components/schemas/resource_booking/properties/autotracking'
+                      custom_fields:
+                        $ref: '#/components/schemas/resource_booking/properties/custom_fields'
+                      rejected_reason:
+                        $ref: '#/components/schemas/resource_booking/properties/rejected_reason'
+                      last_activity_at:
+                        $ref: '#/components/schemas/resource_booking/properties/last_activity_at'
+                      booking_method_id:
+                        $ref: '#/components/schemas/resource_booking/properties/booking_method_id'
+                      total_working_days:
+                        $ref: '#/components/schemas/resource_booking/properties/total_working_days'
+                      people_custom_fields:
+                        $ref: '#/components/schemas/resource_booking/properties/people_custom_fields'
+                  relationships:
+                    type: object
+                    properties:
+                      task:
+                        $ref: '#/components/schemas/_single_relationship'
+                      event:
+                        $ref: '#/components/schemas/_single_relationship'
+                      origin:
+                        $ref: '#/components/schemas/_single_relationship'
+                      person:
+                        $ref: '#/components/schemas/_single_relationship'
+                      creator:
+                        $ref: '#/components/schemas/_single_relationship'
+                      service:
+                        $ref: '#/components/schemas/_single_relationship'
+                      updater:
+                        $ref: '#/components/schemas/_single_relationship'
+                      approver:
+                        $ref: '#/components/schemas/_single_relationship'
+                      canceler:
+                        $ref: '#/components/schemas/_single_relationship'
+                      rejecter:
+                        $ref: '#/components/schemas/_single_relationship'
+                      attachments:
+                        $ref: '#/components/schemas/_collection_relationship'
+                      organization:
+                        $ref: '#/components/schemas/_single_relationship'
+                      scenario_item:
+                        $ref: '#/components/schemas/_single_relationship'
+                      resource_request:
+                        $ref: '#/components/schemas/_single_relationship'
+                      approval_statuses:
+                        $ref: '#/components/schemas/_collection_relationship'
+                      custom_field_people:
+                        $ref: '#/components/schemas/_collection_relationship'
+                      custom_field_attachments:
+                        $ref: '#/components/schemas/_collection_relationship'
+              meta:
+                $ref: '#/components/schemas/_meta'
+              included:
+                type: array
+                items: {}
+      description: Single booking
     collection_time_entry:
       content:
         application/vnd.api+json:
@@ -5589,7 +5870,7 @@ components:
                 type: array
                 items: {}
       description: Collection time entry
-    single_booking:
+    single_timesheet:
       content:
         application/vnd.api+json:
           schema:
@@ -5601,99 +5882,25 @@ components:
                   attributes:
                     type: object
                     properties:
-                      note:
-                        $ref: '#/components/schemas/resource_booking/properties/note'
-                      time:
-                        $ref: '#/components/schemas/resource_booking/properties/time'
-                      draft:
-                        $ref: '#/components/schemas/resource_booking/properties/draft'
-                      hours:
-                        $ref: '#/components/schemas/resource_booking/properties/hours'
-                      approved:
-                        $ref: '#/components/schemas/resource_booking/properties/approved'
-                      canceled:
-                        $ref: '#/components/schemas/resource_booking/properties/canceled'
-                      ended_on:
-                        $ref: '#/components/schemas/resource_booking/properties/ended_on'
-                      rejected:
-                        $ref: '#/components/schemas/resource_booking/properties/rejected'
+                      date:
+                        $ref: '#/components/schemas/resource_timesheet/properties/date'
                       created_at:
-                        $ref: '#/components/schemas/resource_booking/properties/created_at'
-                      percentage:
-                        $ref: '#/components/schemas/resource_booking/properties/percentage'
-                      stage_type:
-                        $ref: '#/components/schemas/resource_booking/properties/stage_type'
-                      started_on:
-                        $ref: '#/components/schemas/resource_booking/properties/started_on'
-                      total_time:
-                        $ref: '#/components/schemas/resource_booking/properties/total_time'
-                      updated_at:
-                        $ref: '#/components/schemas/resource_booking/properties/updated_at'
-                      approved_at:
-                        $ref: '#/components/schemas/resource_booking/properties/approved_at'
-                      canceled_at:
-                        $ref: '#/components/schemas/resource_booking/properties/canceled_at'
-                      external_id:
-                        $ref: '#/components/schemas/resource_booking/properties/external_id'
-                      rejected_at:
-                        $ref: '#/components/schemas/resource_booking/properties/rejected_at'
-                      autotracking:
-                        $ref: '#/components/schemas/resource_booking/properties/autotracking'
-                      custom_fields:
-                        $ref: '#/components/schemas/resource_booking/properties/custom_fields'
-                      rejected_reason:
-                        $ref: '#/components/schemas/resource_booking/properties/rejected_reason'
-                      last_activity_at:
-                        $ref: '#/components/schemas/resource_booking/properties/last_activity_at'
-                      booking_method_id:
-                        $ref: '#/components/schemas/resource_booking/properties/booking_method_id'
-                      total_working_days:
-                        $ref: '#/components/schemas/resource_booking/properties/total_working_days'
-                      people_custom_fields:
-                        $ref: '#/components/schemas/resource_booking/properties/people_custom_fields'
+                        $ref: '#/components/schemas/resource_timesheet/properties/created_at'
                   relationships:
                     type: object
                     properties:
-                      task:
-                        $ref: '#/components/schemas/_single_relationship'
-                      event:
-                        $ref: '#/components/schemas/_single_relationship'
-                      origin:
-                        $ref: '#/components/schemas/_single_relationship'
                       person:
                         $ref: '#/components/schemas/_single_relationship'
                       creator:
                         $ref: '#/components/schemas/_single_relationship'
-                      service:
-                        $ref: '#/components/schemas/_single_relationship'
-                      updater:
-                        $ref: '#/components/schemas/_single_relationship'
-                      approver:
-                        $ref: '#/components/schemas/_single_relationship'
-                      canceler:
-                        $ref: '#/components/schemas/_single_relationship'
-                      rejecter:
-                        $ref: '#/components/schemas/_single_relationship'
-                      attachments:
-                        $ref: '#/components/schemas/_collection_relationship'
                       organization:
                         $ref: '#/components/schemas/_single_relationship'
-                      scenario_item:
-                        $ref: '#/components/schemas/_single_relationship'
-                      resource_request:
-                        $ref: '#/components/schemas/_single_relationship'
-                      approval_statuses:
-                        $ref: '#/components/schemas/_collection_relationship'
-                      custom_field_people:
-                        $ref: '#/components/schemas/_collection_relationship'
-                      custom_field_attachments:
-                        $ref: '#/components/schemas/_collection_relationship'
               meta:
                 $ref: '#/components/schemas/_meta'
               included:
                 type: array
                 items: {}
-      description: Single booking
+      description: Single timesheet
     collection_person:
       content:
         application/vnd.api+json:
