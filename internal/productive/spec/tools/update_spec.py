@@ -24,6 +24,7 @@ Usage:
 
 Requires: requests (or curl fallback), pyyaml.
 """
+import copy
 import re
 import sys
 import urllib.request
@@ -57,6 +58,25 @@ MODEL_SCHEMAS = [
     "resource_time_entry",
     "_meta",
 ]
+
+# Productive's schemas double as both the resource's actual attribute shape
+# and its filter-query parameter shape, and a handful of properties get the
+# filter param's scalar type (e.g. a comma-separated string, for
+# `?filter[tag_list]=a,b`) even though the resource itself returns an
+# array (confirmed against the live API). Drop the incorrect "type" so
+# oapi-codegen falls back to `interface{}`, same as it already does for
+# untyped fields elsewhere in this spec (e.g. resource_time_entry.approved).
+SCALAR_TYPE_OVERRIDES_TO_ANY = {
+    ("resource_person", "tag_list"): "comma-separated string in filters; array in the actual resource",
+    ("resource_service", "budgets_and_deals"): "boolean in the filter schema; array in the actual resource",
+}
+
+
+def detype_misdeclared_scalars(schemas):
+    for (schema_name, prop_name), _reason in SCALAR_TYPE_OVERRIDES_TO_ANY.items():
+        prop = schemas.get(schema_name, {}).get("properties", {}).get(prop_name)
+        if prop is not None:
+            prop.pop("type", None)
 
 REF_RE = re.compile(r"^#/components/(schemas|parameters|requestBodies|responses|securitySchemes)/([^/]+)")
 
@@ -152,7 +172,8 @@ def main():
     with open("productive.yaml", "w") as f:
         yaml.safe_dump(reference, f, sort_keys=False, allow_unicode=True)
 
-    schemas = {k: doc["components"]["schemas"][k] for k in MODEL_SCHEMAS if k in doc["components"]["schemas"]}
+    schemas = copy.deepcopy({k: doc["components"]["schemas"][k] for k in MODEL_SCHEMAS if k in doc["components"]["schemas"]})
+    detype_misdeclared_scalars(schemas)
     models_only = {
         "openapi": doc["openapi"],
         "info": doc["info"],

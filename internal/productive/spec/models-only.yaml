@@ -1034,7 +1034,6 @@ components:
           example:
             eq: value
         tag_list:
-          type: string
           title: Tag List
           description: Comma-separated list of tags applied to this person.
           example:
@@ -2446,7 +2445,6 @@ components:
           example:
           - 123
         budgets_and_deals:
-          type: boolean
           title: Budgets And Deals
           description: List of related deals and budgets for this service.
           example:

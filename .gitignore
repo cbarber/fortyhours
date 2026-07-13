@@ -1,4 +1,5 @@
 .direnv/
 /dist/
 /fortyhours
+.env
 

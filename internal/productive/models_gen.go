@@ -792,7 +792,7 @@ type ResourcePerson struct {
 	SubsidiaryId *int `json:"subsidiary_id,omitempty"`
 
 	// TagList Comma-separated list of tags applied to this person.
-	TagList *string `json:"tag_list,omitempty"`
+	TagList *interface{} `json:"tag_list,omitempty"`
 
 	// Tags Tags applied to this person.
 	Tags *string `json:"tags,omitempty"`
@@ -1114,7 +1114,7 @@ type ResourceService struct {
 	BudgetedTime *int `json:"budgeted_time,omitempty"`
 
 	// BudgetsAndDeals List of related deals and budgets for this service.
-	BudgetsAndDeals *bool `json:"budgets_and_deals,omitempty"`
+	BudgetsAndDeals *interface{} `json:"budgets_and_deals,omitempty"`
 
 	// Company The company (client) linked to the deal this service is on.
 	Company *interface{} `json:"company,omitempty"`
