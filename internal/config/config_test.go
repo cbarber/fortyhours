@@ -60,13 +60,14 @@ func TestEnvVarsOverrideConfigFile(t *testing.T) {
 	dir := t.TempDir()
 	t.Setenv("FORTYHOURS_CONFIG", filepath.Join(dir, "config.yaml"))
 
-	cfg := &Config{APIToken: "file-token", OrgID: "file-org"}
+	cfg := &Config{APIToken: "file-token", OrgID: "file-org", PersonID: "file-person"}
 	if err := cfg.Save(); err != nil {
 		t.Fatalf("Save: %v", err)
 	}
 
 	t.Setenv(EnvAPIToken, "env-token")
 	t.Setenv(EnvOrgID, "env-org")
+	t.Setenv(EnvPersonID, "env-person")
 
 	got, err := Load()
 	if err != nil {
@@ -77,5 +78,8 @@ func TestEnvVarsOverrideConfigFile(t *testing.T) {
 	}
 	if got.OrgID != "env-org" {
 		t.Errorf("OrgID = %q, want env-org to win over file", got.OrgID)
+	}
+	if got.PersonID != "env-person" {
+		t.Errorf("PersonID = %q, want env-person to win over file", got.PersonID)
 	}
 }

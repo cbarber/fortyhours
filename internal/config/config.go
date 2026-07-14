@@ -51,11 +51,13 @@ type Config struct {
 	Autofill []AutofillProject `yaml:"autofill"`
 }
 
-// EnvAPIToken and EnvOrgID name the environment variables that override
-// (and, when unset, fall back to) the config file's credentials.
+// EnvAPIToken, EnvOrgID, and EnvPersonID name the environment variables
+// that override (and, when unset, fall back to) the config file's
+// credentials and person id.
 const (
 	EnvAPIToken = "PRODUCTIVE_API_KEY"
 	EnvOrgID    = "PRODUCTIVE_ORG_ID"
+	EnvPersonID = "PRODUCTIVE_PERSON_ID"
 )
 
 // Path returns the config file location: $FORTYHOURS_CONFIG if set,
@@ -72,9 +74,10 @@ func Path() (string, error) {
 }
 
 // Load reads the config file (if any) and overlays PRODUCTIVE_API_KEY /
-// PRODUCTIVE_ORG_ID from the environment. It is not an error for the config
-// file to be missing; callers should check whether the result is usable
-// (e.g. APIToken/OrgID set) rather than treating a missing file as fatal.
+// PRODUCTIVE_ORG_ID / PRODUCTIVE_PERSON_ID from the environment. It is not
+// an error for the config file to be missing; callers should check whether
+// the result is usable (e.g. APIToken/OrgID set) rather than treating a
+// missing file as fatal.
 func Load() (*Config, error) {
 	path, err := Path()
 	if err != nil {
@@ -95,6 +98,9 @@ func Load() (*Config, error) {
 	}
 	if v := os.Getenv(EnvOrgID); v != "" {
 		cfg.OrgID = v
+	}
+	if v := os.Getenv(EnvPersonID); v != "" {
+		cfg.PersonID = v
 	}
 	if cfg.DailyGoalMinutes == 0 {
 		cfg.DailyGoalMinutes = DefaultDailyGoalMinutes
