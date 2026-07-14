@@ -104,6 +104,21 @@ skipping days already submitted (safe to re-run); `unsubmit` deletes them
 back out, skipping days with none. Productive rejects deleting a timesheet
 once any of its time entries have been approved.
 
+### Scheduling with GitHub Actions
+
+`.github/workflows/schedule.yml` runs `autofill week` then `timesheets
+submit week` every Sunday evening, so it works even if your machine is
+asleep (unlike cron/launchd). To use it in your own fork/repo, set:
+
+- Repo secrets (**Settings → Secrets and variables → Actions → Secrets**):
+  `PRODUCTIVE_API_KEY`, `PRODUCTIVE_ORG_ID`, `PRODUCTIVE_PERSON_ID` (find
+  your person id via `fortyhours config show` after running `init` locally).
+- A repo variable (**...→ Variables**): `FORTYHOURS_AUTOFILL`, in the same
+  `"project:hours,project:hours"` syntax as `--fill`/`init --autofill`.
+
+Run `fortyhours config show` as a workflow step to confirm secrets resolved
+without ever printing the API token to logs.
+
 ### Sick/PTO and existing time entries
 
 Booking `sick` or `pto` over a day that already has time entries deletes
