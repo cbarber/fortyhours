@@ -18,9 +18,9 @@ const DefaultDailyGoalMinutes = 8 * 60
 // AutofillProject is one line of autofill's default weekday split, e.g.
 // "dreamfi: 7h" or "internal: 1h".
 type AutofillProject struct {
-	Project   string  `yaml:"project"`
-	ServiceID string  `yaml:"service_id"`
-	Hours     float64 `yaml:"hours"`
+	Project   string  `yaml:"project" json:"project"`
+	ServiceID string  `yaml:"service_id" json:"service_id"`
+	Hours     float64 `yaml:"hours" json:"hours"`
 }
 
 // Config is fortyhours' persisted configuration.

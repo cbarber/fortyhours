@@ -70,6 +70,8 @@ fortyhours autofill week --dry-run
 fortyhours timesheets submit week        # lock this week's time entries for approval
 fortyhours timesheets submit last-week
 fortyhours timesheets unsubmit week      # undo, as long as nothing's been approved yet
+
+fortyhours config show                   # print the resolved config (file + env), API token redacted
 ```
 
 Every list/get command accepts `--json` for scripting. Every command
