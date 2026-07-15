@@ -122,8 +122,8 @@ func planSummary(plan []config.AutofillProject) string {
 func absenceBookingsInRange(ctx context.Context, app *App, start, end time.Time) ([]productive.Record[productive.ResourceBooking], error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("started_on", "lt_eq", ymd(end)).
-		Op("ended_on", "gt_eq", ymd(start))
+		Op("started_on", "lt_eq", dates.Format(end)).
+		Op("ended_on", "gt_eq", dates.Format(start))
 	bookings, err := app.Client.ListBookings(ctx, filter)
 	if err != nil {
 		return nil, fmt.Errorf("checking for existing absence bookings: %w", err)
@@ -143,12 +143,12 @@ func absenceBookingsInRange(ctx context.Context, app *App, start, end time.Time)
 // and comparing those as instants misclassifies dates near a UTC offset
 // boundary.
 func coversDate(bookings []productive.Record[productive.ResourceBooking], day time.Time) bool {
-	d := ymd(day)
+	d := dates.Format(day)
 	for _, b := range bookings {
 		if b.Attributes.StartedOn == nil || b.Attributes.EndedOn == nil {
 			continue
 		}
-		if ymd(b.Attributes.StartedOn.Time) <= d && d <= ymd(b.Attributes.EndedOn.Time) {
+		if dates.Format(b.Attributes.StartedOn.Time) <= d && d <= dates.Format(b.Attributes.EndedOn.Time) {
 			return true
 		}
 	}
@@ -161,8 +161,8 @@ func coversDate(bookings []productive.Record[productive.ResourceBooking], day ti
 func datesWithTimeEntries(ctx context.Context, app *App, start, end time.Time) (map[string]bool, error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("date", "gt_eq", ymd(start)).
-		Op("date", "lt_eq", ymd(end))
+		Op("date", "gt_eq", dates.Format(start)).
+		Op("date", "lt_eq", dates.Format(end))
 	entries, err := app.Client.ListTimeEntries(ctx, filter)
 	if err != nil {
 		return nil, fmt.Errorf("checking for existing time entries: %w", err)

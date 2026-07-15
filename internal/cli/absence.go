@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/cbarber/fortyhours/internal/dates"
 	"github.com/cbarber/fortyhours/internal/productive"
 )
 
@@ -17,8 +18,8 @@ import (
 func deleteTimeEntriesInRange(ctx context.Context, app *App, start, end time.Time) (int, error) {
 	filter := productive.NewFilter().
 		Eq("person_id", app.Config.PersonID).
-		Op("date", "gt_eq", ymd(start)).
-		Op("date", "lt_eq", ymd(end))
+		Op("date", "gt_eq", dates.Format(start)).
+		Op("date", "lt_eq", dates.Format(end))
 
 	entries, err := app.Client.ListTimeEntries(ctx, filter)
 	if err != nil {
@@ -30,10 +31,6 @@ func deleteTimeEntriesInRange(ctx context.Context, app *App, start, end time.Tim
 		}
 	}
 	return len(entries), nil
-}
-
-func ymd(t time.Time) string {
-	return t.Format("2006-01-02")
 }
 
 // createAbsenceBooking books eventName (sick/PTO) for the configured person
