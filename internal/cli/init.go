@@ -86,7 +86,7 @@ by default. Flags allow running it non-interactively.`,
 	cmd.Flags().StringVar(&email, "email", "", "your Productive email (skips the prompt)")
 	cmd.Flags().StringVar(&sickEvent, "sick-event", "", "absence event name for sick days (skips the prompt)")
 	cmd.Flags().StringVar(&ptoEvent, "pto-event", "", "absence event name for PTO (skips the prompt)")
-	cmd.Flags().StringVar(&autofillSpec, "autofill", "", `autofill defaults as "project:hours,project:hours" (e.g. "dreamfi:7,internal:1"); skips the prompt`)
+	cmd.Flags().StringVar(&autofillSpec, "autofill", "", `autofill defaults as "project:hours[:service],project:hours[:service]" (e.g. "dreamfi:7,internal:1"); skips the prompt`)
 	return cmd
 }
 
@@ -144,7 +144,7 @@ func promptAutofillSpec(in *bufio.Reader, out interface{ Write([]byte) (int, err
 		}
 		fmt.Fprintf(out, "  - %s\n", str(p.Attributes.Name))
 	}
-	return prompt(in, out, `Autofill defaults as "project:hours,project:hours" (e.g. "dreamfi:7,internal:1"), or blank to skip: `)
+	return prompt(in, out, `Autofill defaults as "project:hours[:service],project:hours[:service]" (e.g. "dreamfi:7,internal:1"), or blank to skip: `)
 }
 
 // resolveAutofillSpec parses "project:hours" or "project:hours:service"

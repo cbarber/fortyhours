@@ -101,7 +101,7 @@ everything else.`,
 			return nil
 		},
 	}
-	cmd.Flags().StringVar(&fillSpec, "fill", "", `override the configured autofill defaults, as "project:hours,project:hours"`)
+	cmd.Flags().StringVar(&fillSpec, "fill", "", `override the configured autofill defaults, as "project:hours[:service],project:hours[:service]"`)
 	cmd.Flags().BoolVar(&dryRun, "dry-run", false, "print what would be filled without creating time entries")
 	return cmd
 }
