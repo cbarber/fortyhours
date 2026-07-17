@@ -111,10 +111,11 @@ submit week` every Sunday evening, so it works even if your machine is
 asleep (unlike cron/launchd). To use it in your own fork/repo, set:
 
 - Repo secrets (**Settings → Secrets and variables → Actions → Secrets**):
-  `PRODUCTIVE_API_KEY`, `PRODUCTIVE_ORG_ID`, `PRODUCTIVE_PERSON_ID` (find
-  your person id via `fortyhours config show` after running `init` locally).
-- A repo variable (**...→ Variables**): `FORTYHOURS_AUTOFILL`, in the same
+  `PRODUCTIVE_API_KEY`
+- Repo variables (**...→ Variables**): `FORTYHOURS_AUTOFILL`, in the same
   `"project:hours,project:hours"` syntax as `--fill`/`init --autofill`.
+  `PRODUCTIVE_ORG_ID`, `PRODUCTIVE_PERSON_ID` (find your person id via `fortyhours
+  config show` after running `init` locally).
 
 Run `fortyhours config show` as a workflow step to confirm secrets resolved
 without ever printing the API token to logs.

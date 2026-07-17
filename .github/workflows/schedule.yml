@@ -18,8 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PRODUCTIVE_API_KEY: ${{ secrets.PRODUCTIVE_API_KEY }}
-      PRODUCTIVE_ORG_ID: ${{ secrets.PRODUCTIVE_ORG_ID }}
-      PRODUCTIVE_PERSON_ID: ${{ secrets.PRODUCTIVE_PERSON_ID }}
+      PRODUCTIVE_ORG_ID: ${{ vars.PRODUCTIVE_ORG_ID }}
+      PRODUCTIVE_PERSON_ID: ${{ vars.PRODUCTIVE_PERSON_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
