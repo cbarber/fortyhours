@@ -257,13 +257,13 @@ func TestAutofillSkipsFilledAndAbsenceDays(t *testing.T) {
 }
 
 func TestTimesheetsSubmitSkipsAlreadySubmittedDays(t *testing.T) {
-	monday, friday, err := dates.SubmitRange("week")
+	monday, sunday, err := dates.SubmitRange("week")
 	if err != nil {
 		t.Fatalf("SubmitRange(week): %v", err)
 	}
 
 	fake := newFakeProductive()
-	// Monday is already submitted; every other weekday should get a new
+	// Monday is already submitted; every other day should get a new
 	// timesheet.
 	fake.timesheets["90"] = map[string]any{"id": "90", "person_id": float64(1), "date": dates.Format(monday)}
 	srv := httptest.NewServer(fake.handler())
@@ -276,11 +276,11 @@ func TestTimesheetsSubmitSkipsAlreadySubmittedDays(t *testing.T) {
 	if !strings.Contains(out, dates.Format(monday)+": skipped (already submitted)") {
 		t.Errorf("expected Monday to be skipped as already submitted, got: %s", out)
 	}
-	if !strings.Contains(out, dates.Format(friday)+": submitted") {
-		t.Errorf("expected Friday to be submitted, got: %s", out)
+	if !strings.Contains(out, dates.Format(sunday)+": submitted") {
+		t.Errorf("expected Sunday to be submitted, got: %s", out)
 	}
-	if len(fake.timesheets) != len(dates.Weekdays(monday, friday)) {
-		t.Errorf("expected a timesheet for every weekday, got %d: %v", len(fake.timesheets), fake.timesheets)
+	if len(fake.timesheets) != len(dates.Days(monday, sunday)) {
+		t.Errorf("expected a timesheet for every day, got %d: %v", len(fake.timesheets), fake.timesheets)
 	}
 }
 
@@ -302,7 +302,7 @@ func TestTimesheetsSubmitDryRunCreatesNothing(t *testing.T) {
 }
 
 func TestTimesheetsUnsubmitDeletesExistingAndSkipsMissing(t *testing.T) {
-	monday, friday, err := dates.SubmitRange("week")
+	monday, sunday, err := dates.SubmitRange("week")
 	if err != nil {
 		t.Fatalf("SubmitRange(week): %v", err)
 	}
@@ -319,8 +319,8 @@ func TestTimesheetsUnsubmitDeletesExistingAndSkipsMissing(t *testing.T) {
 	if !strings.Contains(out, dates.Format(monday)+": unsubmitted") {
 		t.Errorf("expected Monday to be unsubmitted, got: %s", out)
 	}
-	if !strings.Contains(out, dates.Format(friday)+": skipped (not submitted)") {
-		t.Errorf("expected Friday to be skipped as not submitted, got: %s", out)
+	if !strings.Contains(out, dates.Format(sunday)+": skipped (not submitted)") {
+		t.Errorf("expected Sunday to be skipped as not submitted, got: %s", out)
 	}
 	if len(fake.timesheets) != 0 {
 		t.Errorf("expected the existing timesheet to be deleted, got %v", fake.timesheets)

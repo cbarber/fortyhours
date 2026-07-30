@@ -85,8 +85,8 @@ func TestSubmitRangeKeywords(t *testing.T) {
 	if start.Weekday().String() != "Monday" {
 		t.Errorf("week start = %s, want Monday", start.Weekday())
 	}
-	if end.Weekday().String() != "Friday" {
-		t.Errorf("week end = %s, want Friday", end.Weekday())
+	if end.Weekday().String() != "Sunday" {
+		t.Errorf("week end = %s, want Sunday", end.Weekday())
 	}
 
 	lastStart, lastEnd, err := SubmitRange("last-week")
@@ -96,8 +96,8 @@ func TestSubmitRangeKeywords(t *testing.T) {
 	if lastStart.AddDate(0, 0, 7) != start {
 		t.Errorf("last-week start = %s, want exactly 7 days before this week's start %s", Format(lastStart), Format(start))
 	}
-	if lastEnd.Weekday().String() != "Friday" {
-		t.Errorf("last-week end = %s, want Friday", lastEnd.Weekday())
+	if lastEnd.Weekday().String() != "Sunday" {
+		t.Errorf("last-week end = %s, want Sunday", lastEnd.Weekday())
 	}
 
 	start, end, err = SubmitRange("month")

@@ -99,7 +99,8 @@ accounted for.
 
 Productive's unit of time-entry approval is a per-person, per-day
 timesheet: creating one submits that day's time entries for approval.
-`timesheets submit <range>` creates one for every Monday-Friday in range,
+`timesheets submit <range>` creates one for every day in range, including
+empty Saturday and Sunday timesheets,
 skipping days already submitted (safe to re-run); `unsubmit` deletes them
 back out, skipping days with none. Productive rejects deleting a timesheet
 once any of its time entries have been approved.

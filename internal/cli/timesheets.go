@@ -30,7 +30,7 @@ func newTimesheetsSubmitCommand() *cobra.Command {
 	var dryRun bool
 	cmd := &cobra.Command{
 		Use:   "submit <day|week|last-week|month|YYYY-MM-DD>",
-		Short: "Submit timesheets for every weekday in range, locking that day's time entries for approval",
+		Short: "Submit timesheets for every day in range, locking that day's time entries for approval",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp(cmd)
@@ -55,7 +55,7 @@ func newTimesheetsSubmitCommand() *cobra.Command {
 				return fmt.Errorf("invalid configured person_id: %w", err)
 			}
 
-			for _, day := range dates.Weekdays(start, end) {
+			for _, day := range dates.Days(start, end) {
 				label := dates.Format(day)
 				if _, ok := existing[label]; ok {
 					fmt.Fprintf(app.Out, "%s: skipped (already submitted)\n", label)
@@ -82,7 +82,7 @@ func newTimesheetsUnsubmitCommand() *cobra.Command {
 	var dryRun bool
 	cmd := &cobra.Command{
 		Use:   "unsubmit <day|week|last-week|month|YYYY-MM-DD>",
-		Short: "Delete timesheets for every weekday in range, unlocking that day's time entries",
+		Short: "Delete timesheets for every day in range, unlocking that day's time entries",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			app, err := newApp(cmd)
@@ -103,7 +103,7 @@ func newTimesheetsUnsubmitCommand() *cobra.Command {
 				return err
 			}
 
-			for _, day := range dates.Weekdays(start, end) {
+			for _, day := range dates.Days(start, end) {
 				label := dates.Format(day)
 				id, ok := existing[label]
 				if !ok {
