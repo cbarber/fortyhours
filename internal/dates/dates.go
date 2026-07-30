@@ -47,6 +47,15 @@ func Weekdays(start, end time.Time) []time.Time {
 	return out
 }
 
+// Days returns every date in [start, end], inclusive.
+func Days(start, end time.Time) []time.Time {
+	var out []time.Time
+	for d := start; !d.After(end); d = d.AddDate(0, 0, 1) {
+		out = append(out, d)
+	}
+	return out
+}
+
 // AutofillRange resolves autofill's range argument into a concrete [start,
 // end] date span:
 //
@@ -96,8 +105,8 @@ func weekdayOffset(t time.Time) int {
 // concrete [start, end] date span:
 //
 //   - "day":        today only
-//   - "week":       Monday-Friday of the current week
-//   - "last-week":  Monday-Friday of the previous week
+//   - "week":       Monday-Sunday of the current week
+//   - "last-week":  Monday-Sunday of the previous week
 //   - "month":      the 1st through the last day of the current month
 //   - any other value: parsed as a single date (that day only)
 //
@@ -112,10 +121,10 @@ func SubmitRange(arg string) (start, end time.Time, err error) {
 		return today, today, nil
 	case "week":
 		monday := today.AddDate(0, 0, -weekdayOffset(today))
-		return monday, monday.AddDate(0, 0, 4), nil
+		return monday, monday.AddDate(0, 0, 6), nil
 	case "last-week":
 		monday := today.AddDate(0, 0, -weekdayOffset(today)-7)
-		return monday, monday.AddDate(0, 0, 4), nil
+		return monday, monday.AddDate(0, 0, 6), nil
 	case "month":
 		first := time.Date(today.Year(), today.Month(), 1, 0, 0, 0, 0, today.Location())
 		return first, first.AddDate(0, 1, -1), nil
